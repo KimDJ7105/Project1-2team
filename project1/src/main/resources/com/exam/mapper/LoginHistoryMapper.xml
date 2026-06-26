@@ -7,7 +7,7 @@
     <!-- 로그인 이력 조회 -->
     <select id="findLoginHistory" resultType="LoginHistoryDTO" parameterType="int">
         select * from login_history
-        where user_id = #{userid}
+        where user_id = #{userId}
     </select>
 
 </mapper>

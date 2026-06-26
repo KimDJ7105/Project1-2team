@@ -7,7 +7,7 @@
     <!-- 계좌 조회 -->
     <select id="findAccount" resultType="AccountDTO" parameterType="int">
         select * from account
-        where user_id = #{userid}
+        where user_id = #{userId}
     </select>
 
 

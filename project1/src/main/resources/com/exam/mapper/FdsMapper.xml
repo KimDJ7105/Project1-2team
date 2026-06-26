@@ -7,7 +7,7 @@
     <!-- 특정 계좌의 fds 이력 조회 -->
     <select id="findFds" resultType="FdsDTO" parameterType="int">
         select * from fds
-        where account_id = #{account_id}
+        where account_id = #{accountId}
         order by fds_date desc
     </select>
 
