@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.mapper.FdsMapper">
+
+    <!-- 특정 계좌의 fds 이력 조회 -->
+    <select id="findFds" resultType="FdsDTO" parameterType="int">
+        select * from fds
+        where account_id = #{account_id}
+        order by fds_date desc
+    </select>
+
+</mapper>
