@@ -56,10 +56,12 @@ CREATE TABLE trading_history (
 CREATE TABLE fds (
     fds_id INT AUTO_INCREMENT PRIMARY KEY COMMENT 'fds 기록 번호',
     history_id INT NOT NULL COMMENT '거래 기록 번호(외래키)',
+    account_id INT NOT NULL COMMENT '대상 계좌 식별 번호',
     risk_rank VARCHAR(10) NOT NULL COMMENT 'fds 검사 결과 (정상 / 주의 / 위험)',
     fds_date DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '탐지 시간',
     risk_score INT NOT NULL COMMENT '탐지 점수',
     risk_reason VARCHAR(100) NOT NULL COMMENT '탐지 이유',
     FOREIGN KEY (history_id) REFERENCES trading_history(history_id) ON DELETE CASCADE,
+    FOREIGN KEY (account_id) REFERENCES account(account_id) ON DELETE CASCADE,
     CONSTRAINT chk_fds_risk_rank CHECK (risk_rank IN ('정상', '주의', '위험'))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
