@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.mapper.MemberMapper">
+
+    <insert id="signup" parameterType="MemberDTO">
+        insert into member( userid, password, username)
+        values ( #{userid}, #{password}, #{username} )
+    </insert>
+
+<!--    <select id="authenticate" parameterType="hashmap" resultType="MemberDTO">-->
+<!--        select userid,password,username,role-->
+<!--        from member-->
+<!--        where userid = #{userid} and password=#{password}-->
+<!--    </select>-->
+
+    <select id="findById" parameterType="string" resultType="MemberDTO">
+                select userid,password,username,role
+                from member
+                where userid = #{userid}
+    </select>
+
+</mapper>
