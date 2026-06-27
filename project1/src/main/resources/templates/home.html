@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="ko">
 <head>
 <meta charset="UTF-8">
 <title>Cloud Bank Home</title>
@@ -147,8 +149,17 @@
             <a href="/mypage" class="my-btn">MY</a>
         </div>
 
-        <div>
-            <a href="/logout" class="logout-btn">로그아웃</a>
+        <div style="display: flex; flex-direction: column; gap: 12px; align-items: center;">
+
+        <span sec:authorize="isAnonymous()" style="display: flex; flex-direction: column; gap: 12px; align-items: center;">
+            <a th:href="@{/login}" class="logout-btn" style="background: white; color: #2b9df4; text-align: center; width: 80px;">로그인</a>
+            <a th:href="@{/signup}" class="logout-btn" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid white; text-align: center; width: 80px;">회원가입</a>
+        </span>
+
+            <span sec:authorize="isAuthenticated()">
+            <a th:href="@{/logout}" class="logout-btn" style="text-align: center; width: 80px;">로그아웃</a>
+        </span>
+
         </div>
 
     </div>
@@ -156,31 +167,71 @@
     <!-- 메인 -->
     <div class="main">
 
-        <div class="title">안녕하세요 김멋사님! ☁️</div>
+        <div class="title">
+        <span sec:authorize="isAnonymous()">
+            안녕하세요! ☁️
+        </span>
 
-        <!-- 계좌 1 -->
-        <div class="account-box">
-            <div class="account-title">계좌 1 │ 123-456-78910</div>
-            <div>잔액 1,350,000원</div>
-
-            <div class="buttons">
-                <a href="/transfer" class="btn">송금</a>
-                <a href="/history" class="btn">거래내역</a>
-            </div>
+            <span sec:authorize="isAuthenticated()">
+            안녕하세요 <span th:text="${session.myLogin.name}">홍길동</span>님! ☁️
+        </span>
         </div>
 
-        <!-- 계좌 2 -->
-        <div class="account-box">
-            <div class="account-title">계좌 2 │ 987-654-32100</div>
-            <div>잔액 500,000원</div>
-
-            <div class="buttons">
-                <a href="/transfer" class="btn">송금</a>
-                <a href="/history" class="btn">거래내역</a>
-            </div>
+        <div sec:authorize="isAnonymous()">
+            <a th:href="@{/login}" class="account-box" style="display: block; text-decoration: none; color: #555; text-align: center; padding: 40px 20px; border-left-color: #ffb300;">
+                <div style="font-size: 18px; font-weight: bold; color: #1e88e5; margin-bottom: 8px;">
+                    🔑 안전한 금융 거래를 위해
+                </div>
+                <div>
+                    계좌를 확인하시려면 <strong style="color: #1976d2; text-decoration: underline;">여기에서 로그인</strong> 해주세요!
+                </div>
+            </a>
         </div>
 
-        <a href="/account/add" class="add-account">+ 계좌 추가</a>
+
+        <div sec:authorize="isAuthenticated()">
+
+            <!--<div class="account-box">
+                <div class="account-title">계좌 1 │ 123-456-78910</div>
+                <div>잔액 1,350,000원</div>
+                <div class="buttons">
+                    <a href="/transfer" class="btn">송금</a>
+                    <a href="/history" class="btn">거래내역</a>
+                </div>
+            </div>-->
+
+            <div th:if="${#lists.isEmpty(accounts)}">
+                <a th:href="@{/createAccount}" class="account-box" style="display: block; text-decoration: none; color: #555; text-align: center; padding: 40px 20px; border-left-color: #f44336;">
+                    <div style="font-size: 18px; font-weight: bold; color: #e53935; margin-bottom: 8px;">
+                        텅 빈 금고 ☁️
+                    </div>
+                    <div>
+                        현재 개설된 클라우드 계좌가 존재하지 않습니다. <br>
+                        <strong style="color: #c62828; text-decoration: underline;">여기에서 첫 계좌를 생성</strong>하고 뱅킹 서비스를 시작해 보세요!
+                    </div>
+                </a>
+            </div>
+
+            <div th:unless="${#lists.isEmpty(accounts)}">
+
+                <div class="account-box" th:each="acc, stat : ${accounts}">
+                    <div class="account-title">
+                        <span th:text="'계좌 ' + ${stat.count} + ' │ ' + ${acc.accountNumber}">계좌 1 │ 000-000-000</span>
+                    </div>
+                    <div>
+                        잔액 <span th:text="${#numbers.formatInteger(acc.balance, 3, 'COMMA')} + '원'">0원</span>
+                    </div>
+                    <div class="buttons">
+                        <a th:href="@{/transfer(accountId=${acc.accountId})}" class="btn">송금</a>
+                        <a th:href="@{/history(accountId=${acc.accountId})}" class="btn">거래내역</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <a href="/account/add" class="add-account">+ 계좌 추가</a>
+
+        </div>
 
     </div>
 
