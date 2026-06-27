@@ -6,13 +6,13 @@
 
     <!-- 회원 가입 -->
     <insert id="signup" parameterType="UserDTO">
-        insert into user( username, password, name, age)
-        values ( #{username}, #{password}, #{name}, #{age} )
+        insert into user( username, password, name, birth_date)
+        values ( #{username}, #{password}, #{name}, #{birthDate} )
     </insert>
 
     <!-- 로그인 -->
     <select id="login" resultType="UserDTO" parameterType="String" >
-        select user_id, password, username, name, age from user
+        select user_id, password, username, name, birth_date from user
         where username = #{username}
     </select>
 
