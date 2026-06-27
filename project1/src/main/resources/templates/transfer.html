@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>송금하기</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Arial;
+        background: linear-gradient(135deg, #eaf6ff, #f7fbff);
+    }
+
+    /* 상단 */
+    .header {
+        background: linear-gradient(90deg, #3bb6ff, #5ad7ff);
+        color: white;
+        padding: 20px;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .divider {
+        height: 1px;
+        background: #d6ecff;
+    }
+
+    /* 전체 박스 */
+    .container {
+        padding: 25px;
+    }
+
+    /* 입력 */
+    .input-box {
+        background: white;
+        padding: 18px;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        margin-bottom: 18px;
+    }
+
+    label {
+        font-weight: bold;
+        font-size: 14px;
+        color: #333;
+    }
+
+    /* 계좌 입력 (구분짓기 : 3-3-5) */
+    .account-input {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+    }
+
+    .account-input input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    /* 금액 */
+    .money-input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 8px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+    }
+
+    .warn {
+        color: red;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    /* 메세지 */
+    textarea {
+        width: 100%;
+        margin-top: 8px;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        resize: none;
+        height: 80px;
+    }
+
+    /* 버튼 */
+    .btn-box {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 25px;
+    }
+
+    .cancel-btn {
+        background: #ccc;
+        color: white;
+        padding: 12px 18px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .send-btn {
+        background: linear-gradient(90deg, #1e88e5, #42a5f5);
+        color: white;
+        padding: 12px 22px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: bold;
+        box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+        transition: 0.2s;
+    }
+
+    .send-btn:hover {
+        transform: scale(1.05);
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="header">송금하기</div>
+<div class="divider"></div>
+
+<div class="container">
+
+    <!-- 받는 계좌 -->
+    <div class="input-box">
+        <label>받는 계좌</label>
+        <div class="account-input">
+            <input type="text" maxlength="3" placeholder="123">
+            <input type="text" maxlength="3" placeholder="456">
+            <input type="text" maxlength="5" placeholder="78910">
+        </div>
+    </div>
+
+    <!-- 금액 -->
+    <div class="input-box">
+        <label>금액</label>
+        <input type="number" class="money-input" placeholder="송금 금액 입력">
+        <div class="warn">※ 1원 이상 입력해야 합니다</div>
+    </div>
+
+    <!-- 메세지 -->
+    <div class="input-box">
+        <label>메세지</label>
+        <textarea placeholder="보내는 사람 이름 또는 메세지를 입력하세요"></textarea>
+    </div>
+
+    <!-- 버튼 -->
+    <div class="btn-box">
+        <a href="/home" class="cancel-btn">취소</a>
+        <a href="#" class="send-btn">송금하기</a>
+    </div>
+
+</div>
+
+</body>
+</html>
