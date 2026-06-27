@@ -11,9 +11,9 @@
     </insert>
 
     <!-- 로그인 -->
-    <select id="login" resultType="UserDTO" parameterType="UserDTO" >
-        select userid, username, name, age from user
-        where username = #{username} AND password = #{password}
+    <select id="login" resultType="UserDTO" parameterType="String" >
+        select user_id, password, username, name, age from user
+        where username = #{username}
     </select>
 
 </mapper>

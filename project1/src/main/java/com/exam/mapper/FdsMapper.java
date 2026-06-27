@@ -9,4 +9,7 @@ import java.util.List;
 @Mapper
 public interface FdsMapper {
     List<FdsDTO> findFds(int accountId);
+
+    // 계산된 FDS 저장
+    int insertFds(FdsDTO fdsDTO);
 }

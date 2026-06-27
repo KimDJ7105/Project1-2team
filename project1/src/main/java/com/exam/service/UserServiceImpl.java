@@ -17,11 +17,18 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public int signup(UserDTO dto) {
+
+        UserDTO existingUser = login(dto.getUsername()); // 로그인용 메서드 재활용
+        if (existingUser != null) {
+            // 입력한 username 값이 이미 존재하는 경우.
+            return 0;
+        }
+
         return memberMapper.signup(dto);
     }
 
     @Override
-    public UserDTO login(UserDTO dto) {
-        return memberMapper.login(dto);
+    public UserDTO login(String username) {
+        return memberMapper.login(username);
     }
 }
