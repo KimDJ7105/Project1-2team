@@ -7,7 +7,7 @@
     <!-- 특정 계좌의 거래 이력 조회 -->
     <select id="tradingHistory" resultType="TradingHistoryDTO" parameterType="int">
         select * from trading_history
-        where sending_account = #{account_id} OR receiving_account = #{account_id}
+        where sending_account = #{accountId} OR receiving_account = #{accountId}
         order by trade_date desc
     </select>
 
