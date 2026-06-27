@@ -12,7 +12,7 @@
 
     <!-- 로그인 -->
     <select id="login" resultType="UserDTO" parameterType="String" >
-        select userid, username, name, age from user
+        select user_id, password, username, name, age from user
         where username = #{username}
     </select>
 

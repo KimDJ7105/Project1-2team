@@ -21,6 +21,20 @@ public class UserDTO {
     private int age;
     private int loginFailCount;
 
+    @NotBlank(message = "생년월일을 선택해 주세요")
+    private String birth;
+
+    public void calculateAgeFromBirth() {
+        if (this.birth == null || this.birth.isBlank()) return;
+
+        // "2026-06-27" 포맷 파싱 가동
+        java.time.LocalDate birthDate = java.time.LocalDate.parse(this.birth);
+        java.time.LocalDate currentDate = java.time.LocalDate.now();
+
+        this.age = java.time.Period.between(birthDate, currentDate).getYears();
+    }
+
+
     public UserDTO() {
     }
 
@@ -44,7 +58,19 @@ public class UserDTO {
                 ", createdAt=" + createdAt +
                 ", age=" + age +
                 ", loginFailCount=" + loginFailCount +
+                ", birth='" + birth + '\'' +
                 '}';
+    }
+
+    public String getBirth() {
+        return birth;
+    }
+
+    public void setBirth(String birth) {
+        this.birth = birth;
+        if (birth != null && !birth.isBlank()) {
+            calculateAgeFromBirth(); // 나이 입력
+        }
     }
 
     public int getUserId() {

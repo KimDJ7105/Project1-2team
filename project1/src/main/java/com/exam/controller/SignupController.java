@@ -35,6 +35,8 @@ public class SignupController {
             return "signupForm";
         }
 
+        userDto.calculateAgeFromBirth();
+
         // 비밀번호 암호화
         String originalPassword = userDto.getPassword();
         userDto.setPassword(passwordEncoder.encode(originalPassword));
