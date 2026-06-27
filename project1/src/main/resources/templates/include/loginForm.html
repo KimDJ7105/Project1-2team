@@ -1,21 +1,52 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>로그인</title>
 </head>
 <body>
- <!-- errorPage 보여주기-->
-  <div th:fragment="content">
-  <p th:if="${param.error}">
-      아이디 또는 비밀번호 다시 확인하세요
-  </p>
- <p th:if="${errorMessage}" th:text="${errorMessage}"></p>
-    <form  th:action="@{/auth}" method="post">
-        아이디:<input type="text" name="userid"><br>
-        비밀번호:<input type="text" name="password"><br>
-      <input type="submit" value="로그인">
-    </form>
-  </div>
+
+<div th:fragment="content">
+
+    <div style="width:350px; margin:100px auto; text-align:center;">
+
+        <h2>Cloud Bank</h2>
+
+        <!-- 로그인 실패 -->
+        <p th:if="${param.error}" style="color:red;">
+            로그인에 실패했습니다.
+        </p>
+
+        <p th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></p>
+
+        <form th:action="@{/auth}" method="post">
+
+            <input type="text"
+                   name="userid"
+                   placeholder="ID 입력"
+                   style="width:100%; height:40px; margin-bottom:15px;">
+
+            <input type="password"
+                   name="password"
+                   placeholder="PW 입력"
+                   style="width:100%; height:40px; margin-bottom:20px;">
+
+            <button type="submit"
+                    style="width:100%; height:45px;">
+                로그인
+            </button>
+
+        </form>
+
+        <br>
+
+        <a th:href="@{/member}">
+            회원가입
+        </a>
+
+    </div>
+
+</div>
+
 </body>
 </html>
