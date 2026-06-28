@@ -17,17 +17,19 @@
             로그인에 실패했습니다.
         </p>
 
-        <p th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></p>
+        <p th:if="${errorMessage}"
+           th:text="${errorMessage}"
+           style="color:red; font-size:13px; margin-bottom:15px; text-align:left;"></p>
 
-        <form th:action="@{/auth}" method="post">
+        <form th:action="@{/login}" th:object="${loginRequestDto}" method="post">
 
             <input type="text"
-                   name="userid"
+                   th:field="*{username}"
                    placeholder="ID 입력"
                    style="width:100%; height:40px; margin-bottom:15px;">
 
             <input type="password"
-                   name="password"
+                   th:field="*{password}"
                    placeholder="PW 입력"
                    style="width:100%; height:40px; margin-bottom:20px;">
 
