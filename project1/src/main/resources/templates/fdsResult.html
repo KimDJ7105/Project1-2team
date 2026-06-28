@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>FDS 위험도 검사</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI", sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#eaf6ff,#f8fcff);
+}
+
+.header{
+
+    background:linear-gradient(90deg,#37b7ff,#63d6ff);
+    color:white;
+    font-size:24px;
+    font-weight:bold;
+    text-align:center;
+    padding:20px;
+}
+
+hr{
+    border:none;
+    height:1px;
+    background:#d9eefc;
+}
+
+.container{
+
+    width:650px;
+    margin:40px auto;
+    background:white;
+    border-radius:20px;
+    padding:40px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+
+}
+
+.title{
+
+    text-align:center;
+    font-size:20px;
+    font-weight:bold;
+    color:#2b91da;
+    margin-bottom:25px;
+
+}
+
+.resultBox{
+
+    border:2px solid #bfe7ff;
+    border-radius:15px;
+    padding:30px;
+    background:#fafdff;
+    margin-bottom:35px;
+
+}
+
+.resultItem{
+
+    margin:18px 0;
+    font-size:18px;
+
+}
+
+.grade{
+
+    color:#e53935;
+    font-weight:bold;
+    font-size:22px;
+
+}
+
+.score{
+
+    color:#1e88e5;
+    font-weight:bold;
+
+}
+
+.reasonTitle{
+
+    margin-top:25px;
+    font-size:17px;
+    font-weight:bold;
+    color:#555;
+
+}
+
+.reason{
+
+    margin-top:10px;
+    margin-left:20px;
+    color:#444;
+    line-height:30px;
+
+}
+
+.message{
+
+    text-align:center;
+    font-size:18px;
+    font-weight:bold;
+    color:#444;
+    margin-bottom:35px;
+
+}
+
+.buttonArea{
+
+    display:flex;
+    justify-content:space-between;
+
+}
+
+.cancelBtn{
+
+    background:#d9d9d9;
+    color:#555;
+    padding:12px 35px;
+    border-radius:25px;
+    text-decoration:none;
+    font-weight:bold;
+    transition:.2s;
+
+}
+
+.cancelBtn:hover{
+
+    background:#c6c6c6;
+
+}
+
+.nextBtn{
+
+    background:linear-gradient(90deg,#1e88e5,#4fc3f7);
+    color:white;
+    padding:12px 35px;
+    border-radius:25px;
+    text-decoration:none;
+    font-weight:bold;
+    box-shadow:0 4px 10px rgba(0,0,0,.15);
+    transition:.2s;
+
+}
+
+.nextBtn:hover{
+
+    transform:scale(1.05);
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+    FDS 위험도 검사
+</div>
+
+<hr>
+
+<div class="container">
+
+    <div class="title">
+        위험도 검사 결과
+    </div>
+
+    <div class="resultBox">
+
+        <div class="resultItem">
+            등급 :
+            <span class="grade">위험</span>
+        </div>
+
+        <div class="resultItem">
+            점수 :
+            <span class="score">99점</span>
+        </div>
+
+        <div class="reasonTitle">
+            판정 사유
+        </div>
+
+        <div class="reason">
+            - 고액 거래<br>
+            - 심야 거래
+        </div>
+
+    </div>
+
+    <div class="message">
+        계속 송금하시겠습니까?
+    </div>
+
+    <div class="buttonArea">
+
+        <a href="/transfer" class="cancelBtn">
+            취소
+        </a>
+
+        <a href="/transferComplete" class="nextBtn">
+            계속 진행
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

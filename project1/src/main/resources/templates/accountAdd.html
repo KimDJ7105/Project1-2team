@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>계좌 생성</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Arial;
+        background: linear-gradient(135deg, #eaf6ff, #f7fbff);
+    }
+
+    /* 상단 */
+    .header {
+        background: linear-gradient(90deg, #3bb6ff, #5ad7ff);
+        color: white;
+        padding: 20px;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .divider {
+        height: 1px;
+        background: #d6ecff;
+    }
+
+    /* 컨테이너 */
+    .container {
+        padding: 25px;
+    }
+
+    /* 완료 메시지 */
+    .success {
+        background: #fff7c2;
+        color: #b38b00;
+        font-weight: bold;
+        padding: 15px;
+        border-radius: 12px;
+        text-align: center;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        font-size: 18px;
+    }
+
+    /* 카드 */
+    .card {
+        background: white;
+        padding: 20px;
+        border-radius: 16px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        margin-bottom: 20px;
+    }
+
+    .label {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 5px;
+    }
+
+    .value {
+        font-size: 16px;
+        font-weight: bold;
+        color: #222;
+    }
+
+    /* 계좌 생성 문구(강조)*/
+    .account-number {
+        font-size: 18px;
+        font-weight: bold;
+        color: #1e88e5;
+        letter-spacing: 1px;
+    }
+
+    .balance {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    /* 버튼 */
+    .btn-box {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .confirm-btn {
+        display: inline-block;
+        padding: 12px 25px;
+        background: linear-gradient(90deg, #1e88e5, #42a5f5);
+        color: white;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: bold;
+        box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+        transition: 0.2s;
+    }
+
+    .confirm-btn:hover {
+        transform: scale(1.05);
+    }
+
+</style>
+</head>
+
+<body>
+
+    <!-- 상단 -->
+    <div class="header">계좌 생성</div>
+    <div class="divider"></div>
+
+    <div class="container">
+
+        <!-- 노란 완료 메시지 -->
+        <div class="success">
+            계좌 생성 완료
+        </div>
+
+        <!-- 안내 문구 -->
+        <div class="card">
+            <div class="label">안내</div>
+            <div class="value">김멋사님의 새 계좌가 생성되었습니다.</div>
+        </div>
+
+        <!-- 계좌 정보 -->
+        <div class="card">
+            <div class="label">계좌번호</div>
+            <div class="account-number">987-654-32100</div>
+        </div>
+
+        <div class="card">
+            <div class="label">현재 잔액</div>
+            <div class="balance">0원</div>
+        </div>
+
+        <!-- 버튼 -->
+        <div class="btn-box">
+            <a href="/home" class="confirm-btn">확인</a>
+        </div>
+
+    </div>
+
+</body>
+</html>
