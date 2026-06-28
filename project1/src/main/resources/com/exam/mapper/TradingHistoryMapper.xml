@@ -26,4 +26,10 @@
         where sending_account = #{sendingAccount} and trade_date >= NOW()-INTERVAL 10 MINUTE
     </select>
 
+    <!-- 거래 기록 저장 -->
+    <insert id="insertTradingHistory" parameterType="TradingHistoryDTO" useGeneratedKeys="true" keyProperty="historyId">
+        insert into trading_history(sending_account, receiving_account, amount, message, is_fail, fail_msg)
+        values(#{sendingAccount}, #{receivingAccount}, #{amount}, #{message}, #{isFail}, #{failMsg})
+    </insert>
+
 </mapper>

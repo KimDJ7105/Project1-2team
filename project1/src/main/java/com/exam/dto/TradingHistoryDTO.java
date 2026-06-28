@@ -112,7 +112,7 @@ public class TradingHistoryDTO {
         return isFail;
     }
 
-    public void setFail(boolean fail) {
+    public void setIsFail(boolean fail) {
         isFail = fail;
     }
 

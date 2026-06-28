@@ -4,7 +4,7 @@ import com.exam.dto.AccountDTO;
 import com.exam.dto.FdsDTO;
 import com.exam.dto.TradingHistoryDTO;
 import com.exam.mapper.FdsMapper;
-import com.exam.mapper.TradingHistoryMapper;
+import com.exam.service.TradingHistoryService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,11 +15,11 @@ import java.util.List;
 public class FdsServiceImpl implements FdsService {
 
     FdsMapper fdsMapper;
-    TradingHistoryMapper tradingHistoryMapper;
+    TradingHistoryService tradingHistoryService;
 
-    public FdsServiceImpl(FdsMapper fdsMapper, TradingHistoryMapper tradingHistoryMapper) {
+    public FdsServiceImpl(FdsMapper fdsMapper, TradingHistoryService tradingHistoryService) {
        this.fdsMapper = fdsMapper;
-       this.tradingHistoryMapper = tradingHistoryMapper;
+       this.tradingHistoryService = tradingHistoryService;
     }
 
 
@@ -46,16 +46,16 @@ public class FdsServiceImpl implements FdsService {
 
         } else if (amount <= 500000) {
             score +=5;
-            reason += "[소액 거래]\n";
+            reason += "소액 거래\n";
         } else if (amount <= 1000000) {
             score +=10;
-            reason += "[중간 금액]\n";
+            reason += "중간 금액\n";
         } else if (amount <= 3000000) {
             score +=20;
-            reason += "[고액 거래]\n";
+            reason += "고액 거래\n";
         } else {
             score +=35;
-            reason += "[매우 고액 거래]\n";
+            reason += "매우 고액 거래\n";
         }
 
         // 거래 시간
@@ -66,32 +66,32 @@ public class FdsServiceImpl implements FdsService {
 
         } else if (hour >= 22) {
             score +=10;
-            reason += "[야간 거래]\n";
+            reason += "야간 거래\n";
         } else {
             score +=20;
-            reason += "[심야 거래]\n";
+            reason += "심야 거래\n";
         }
 
         //신규 계좌 여부 (기존 송금 이력 있는지 없는지 검사)
-        int transferHistorycount=tradingHistoryMapper.countTransferHistory(tradingHistoryDTO.getSendingAccount(), tradingHistoryDTO.getReceivingAccount());
+        int transferHistorycount=tradingHistoryService.countTransferHistory(tradingHistoryDTO.getSendingAccount(), tradingHistoryDTO.getReceivingAccount());
         if (transferHistorycount==0) {
             score +=20;
-            reason += "[신규 계좌]\n";
+            reason += "신규 계좌\n";
         } else {
 
         }
 
         //반복 거래
-        int recentTransferCount = tradingHistoryMapper.countRecentTransfer(tradingHistoryDTO.getSendingAccount());
+        int recentTransferCount = tradingHistoryService.countRecentTransfer(tradingHistoryDTO.getSendingAccount());
 
         if (recentTransferCount<=1) {
 
         } else if (recentTransferCount<=3) {
             score +=10;
-            reason += "[반복 거래]\n";
+            reason += "반복 거래\n";
         } else {
             score +=20;
-            reason += "[과도한 반복 거래]\n";
+            reason += "과도한 반복 거래\n";
         }
 
 
@@ -103,10 +103,10 @@ public class FdsServiceImpl implements FdsService {
 
             } else if (ratio <= 0.7) {
                 score +=10;
-                reason += "[큰 금액]\n";
+                reason += "큰 금액\n";
             } else {
                 score +=20;
-                reason += "[대부분 인출]\n";
+                reason += "대부분 인출\n";
             }
 
             //해외 거래 ???? 일단 보류하겠습니다.
@@ -116,15 +116,15 @@ public class FdsServiceImpl implements FdsService {
         String rank = "";
 
         if (score >= 70) {
-            rank = "[위험]";
+            rank = "위험";
         } else if (score >= 40) {
-            rank = "[주의]";
+            rank = "주의";
         } else {
-            rank = "[정상]";
+            rank = "정상";
         }
 
         if (reason.equals("")) {
-            reason = "[위험 요소 없음]";
+            reason = "위험 요소 없음";
         }
 
         // FDS 결과 DTO 생성
@@ -136,5 +136,10 @@ public class FdsServiceImpl implements FdsService {
         fdsDTO.setRiskReason(reason);
         return fdsDTO;
 
+    }
+
+    @Override
+    public int insertFds(FdsDTO fdsDTO) {
+        return fdsMapper.insertFds(fdsDTO);
     }
 }
