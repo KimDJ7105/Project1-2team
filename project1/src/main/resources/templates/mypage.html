@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="ko">
 <head>
 <meta charset="UTF-8">
 <title>My Page</title>
@@ -113,23 +115,40 @@
     <!-- 프로필 -->
     <div class="profile-card">
         <div class="profile-img">🦁</div>
-        <div class="info"><b>이름 :</b> 김멋사</div>
-        <div class="info"><b>생년월일 :</b> 2000-01-01</div>
+        <div class="info">
+            <b>이름 :</b> <span th:text="${session.myLogin.name}">홍길동</span>
+        </div>
+        <div class="info">
+            <b>생년월일 :</b> <span th:text="${session.myLogin.birthDate}">2000-01-01</span>
+        </div>
     </div>
 
     <!-- 계좌 -->
     <div class="section-title">내 계좌</div>
 
-    <div class="account-box">
-        <div class="account-number">123-456-78910</div>
-        <div class="account-info">잔액: 1,350,000원</div>
-        <div class="account-info">개설일: 2025-01-03</div>
+    <div th:if="${#lists.isEmpty(accounts)}">
+        <a th:href="@{/createAccount}" class="account-box" style="display: block; text-decoration: none; color: #555; text-align: center; padding: 30px 20px; border-left-color: #f44336;">
+            <div style="font-size: 16px; font-weight: bold; color: #e53935; margin-bottom: 8px;">
+                텅 빈 금고 ☁️
+            </div>
+            <div style="font-size: 14px;">
+                현재 개설된 클라우드 계좌가 존재하지 않습니다. <br>
+                <strong style="color: #c62828; text-decoration: underline;">여기에서 첫 계좌를 생성</strong>해 보세요!
+            </div>
+        </a>
     </div>
 
-    <div class="account-box">
-        <div class="account-number">321-234-25252</div>
-        <div class="account-info">잔액: 20,000,000원</div>
-        <div class="account-info">개설일: 2022-03-11</div>
+    <div th:unless="${#lists.isEmpty(accounts)}">
+        <div class="account-box" th:each="acc : ${accounts}">
+            <div class="account-number" th:text="${acc.accountNumber}">123-456-78910</div>
+
+            <div class="account-info">
+                잔액: <span th:text="${#numbers.formatInteger(acc.balance, 3, 'COMMA')} + '원'">0원</span>
+            </div>
+            <div class="account-info">
+                개설일: <span th:text="${acc.createdAt}">2025-01-03</span>
+            </div>
+        </div>
     </div>
 
     <!-- 홈으로 -->

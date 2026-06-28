@@ -7,9 +7,8 @@ CREATE TABLE user (
     password VARCHAR(60) NOT NULL COMMENT '비밀번호',
     name VARCHAR(30) NOT NULL COMMENT '이름',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '가입일',
-    age INT NOT NULL COMMENT '나이',
-    login_fail_count INT DEFAULT 0 COMMENT '로그인 실패 횟수',
-    CONSTRAINT chk_user_age CHECK (age > 0)
+    birth_date DATE NOT NULL COMMENT '생년월일',
+    login_fail_count INT DEFAULT 0 COMMENT '로그인 실패 횟수'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 2. 계좌 테이블 (account)
