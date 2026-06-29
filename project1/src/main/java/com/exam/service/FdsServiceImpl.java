@@ -149,10 +149,6 @@ public class FdsServiceImpl implements FdsService {
         fdsDTO.setRiskRank(rank);
         fdsDTO.setRiskReason(reason);
 
-        if(fdsDTO.getRiskScore() >= 40) { //주의 이상인 경우 DB에 저장.
-            fdsMapper.insertFds(fdsDTO);
-        }
-
         return fdsDTO;
 
     }
