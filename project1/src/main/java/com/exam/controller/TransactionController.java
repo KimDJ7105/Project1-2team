@@ -105,6 +105,7 @@ public class TransactionController {
         return "deposit";
     }
 
+    // 입금 처리
     @PostMapping("/deposit")
     public String depositProcess(TradingHistoryDTO tradingHistoryDTO, Model model) {
 
@@ -142,7 +143,68 @@ public class TransactionController {
 
         tradingHistoryService.insertTradingHistory(tradingHistoryDTO);
 
-        // 송금 성공
+        // 입금 성공
+        return "redirect:/home";
+
+    }
+
+    // 입금 화면 요청
+    @GetMapping("/withdraw")
+    public String withdrawMoney(@RequestParam(value = "accountId", required = false) int accountId, Model model) {
+
+        TradingHistoryDTO dto = new TradingHistoryDTO();
+
+        if (accountId > 0) {
+            dto.setSendingAccount(accountId);
+        } else {
+            // 제대로된 값이 넘어오지 않은 경우.
+            //todo 예외 처리 필요.
+        }
+
+        model.addAttribute("tradingHistoryDTO", dto);
+
+        return "withdraw";
+    }
+
+    // 입금 처리
+    @PostMapping("/withdraw")
+    public String withdrawProcess(TradingHistoryDTO tradingHistoryDTO, Model model) {
+
+        // 가져온 데이터 : 보내는 계좌 id, 금액, 메시지
+
+        if (tradingHistoryDTO.getAmount() <= 0) {
+            model.addAttribute("errorMessage", "입금할 금액을 정확히 입력해 주세요.");
+            model.addAttribute("tradingHistoryDTO", tradingHistoryDTO);
+            return "deposit";
+        }
+
+        // 계좌 정보 로드
+        AccountDTO myAccount = accountService.findAccountById(tradingHistoryDTO.getSendingAccount());
+        if (myAccount == null) {
+            model.addAttribute("errorMessage", "존재하지 않는 계좌이거나 접근이 거부되었습니다.");
+            model.addAttribute("tradingHistoryDTO", tradingHistoryDTO);
+            return "deposit";
+        }
+
+        // 출금 처리
+        HashMap<String,Object> withdrawMap = new HashMap<>();
+        withdrawMap.put("accountNumber",myAccount.getAccountNumber());
+        withdrawMap.put("amount",tradingHistoryDTO.getAmount());
+        accountService.withdraw(withdrawMap);
+
+        tradingHistoryDTO.setTradeType("출금");
+        tradingHistoryDTO.setSendingAccount(myAccount.getAccountId());
+        tradingHistoryDTO.setReceivingAccount(myAccount.getAccountId());
+        if(tradingHistoryDTO.getMessage() == null || tradingHistoryDTO.getMessage().equals("")){
+            tradingHistoryDTO.setMessage(userService.findUser(
+                            myAccount.getUserId())
+                    .getName());
+        }
+        tradingHistoryDTO.setIsFail(false);
+
+        tradingHistoryService.insertTradingHistory(tradingHistoryDTO);
+
+        // 출금 성공
         return "redirect:/home";
 
     }
