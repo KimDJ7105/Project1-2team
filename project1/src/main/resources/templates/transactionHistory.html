@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>거래 내역</title>
@@ -13,7 +13,6 @@ body{
 }
 
 /* 상단 */
-
 .header{
     background:linear-gradient(90deg,#3bb6ff,#5ad7ff);
     color:white;
@@ -29,125 +28,92 @@ body{
 }
 
 /* 카드 */
-
 .container{
-
     width:760px;
     margin:40px auto;
     background:white;
     border-radius:20px;
     overflow:hidden;
     box-shadow:0 8px 20px rgba(0,0,0,.08);
-
 }
 
 /* 제목 */
-
 .title{
-
     text-align:center;
     font-size:28px;
     font-weight:bold;
     color:#1e88e5;
     padding:35px 0;
-
 }
 
 /* 계좌선택 */
-
 .accountArea{
-
     border-top:1px solid #e8eef5;
     border-bottom:1px solid #e8eef5;
     padding:25px 40px;
-
 }
 
 .accountArea label{
-
     font-size:20px;
     font-weight:bold;
     color:#333;
-
 }
 
 .accountArea select{
-
     margin-left:15px;
     padding:10px 16px;
     border-radius:10px;
     border:1px solid #bcdfff;
     font-size:16px;
-
 }
 
 /* 테이블 */
-
 .tableArea{
-
     padding:30px 40px;
-
 }
 
 table{
-
     width:100%;
     border-collapse:collapse;
-
 }
 
 th{
-
     background:#eaf6ff;
     color:#1e88e5;
     padding:15px;
     font-size:18px;
-
 }
 
 td{
-
     text-align:center;
     padding:18px;
     border-bottom:1px solid #eef3f8;
     font-size:17px;
-
 }
 
 tr:hover{
-
     background:#f8fcff;
-
 }
 
 /* 위험도 */
-
 .safe{
-
     color:#2e7d32;
     font-weight:bold;
-
 }
 
 .danger{
-
     color:#e53935;
     font-weight:bold;
-
 }
 
 /* 버튼 */
-
 .buttonArea{
-
     text-align:center;
     padding:35px;
     border-top:1px solid #e8eef5;
-
 }
 
 .confirmBtn{
-
     display:inline-block;
     padding:13px 40px;
     background:linear-gradient(90deg,#1e88e5,#42a5f5);
@@ -157,13 +123,10 @@ tr:hover{
     font-weight:bold;
     box-shadow:0 5px 12px rgba(0,0,0,.15);
     transition:.2s;
-
 }
 
 .confirmBtn:hover{
-
     transform:scale(1.05);
-
 }
 
 </style>
@@ -184,65 +147,42 @@ tr:hover{
         거래 내역
     </div>
 
+    <!-- 계좌 선택 (현재는 고정) -->
     <div class="accountArea">
 
         <label>계좌 선택 ▼</label>
 
         <select>
-
             <option>123-456-78910</option>
             <option>321-234-25252</option>
-
         </select>
 
     </div>
 
+    <!-- 테이블 -->
     <div class="tableArea">
 
         <table>
 
             <tr>
-
                 <th>날짜</th>
                 <th>유형</th>
                 <th>금액</th>
                 <th>위험도</th>
-
             </tr>
 
-            <tr>
+            <!-- DB 데이터 반복 -->
+            <tr th:each="history : ${historyList}">
 
-                <td>06/26</td>
-                <td>송금</td>
-                <td>50만원</td>
-                <td class="safe">정상</td>
+                <td th:text="${#temporals.format(history.tradeDate, 'MM/dd')}"></td>
 
-            </tr>
+                <td th:text="${history.tradeType}"></td>
 
-            <tr>
+                <td th:text="${history.amount + '원'}"></td>
 
-                <td>06/25</td>
-                <td>입금</td>
-                <td>800만원</td>
-                <td class="danger">위험</td>
-
-            </tr>
-
-            <tr>
-
-                <td>06/22</td>
-                <td>출금</td>
-                <td>100만원</td>
-                <td class="safe">정상</td>
-
-            </tr>
-
-            <tr>
-
-                <td>06/20</td>
-                <td>송금</td>
-                <td>1000만원</td>
-                <td class="danger">위험</td>
+                <td th:classappend="${history.fail} ? 'danger' : 'safe'"
+                    th:text="${history.fail} ? '위험' : '정상'">
+                </td>
 
             </tr>
 
