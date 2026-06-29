@@ -7,5 +7,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserMapper {
     int signup(UserDTO dto);
     UserDTO login(String username);
-
+    UserDTO findUser(int userId);
 }
