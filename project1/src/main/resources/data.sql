@@ -1,6 +1,6 @@
 -- 테스트 회원 생성
-INSERT IGNORE INTO user (username, password, name, birth_date)
-VALUES ('hong123', 'hongpasswd', '홍길동', '1999-11-15');
+--INSERT IGNORE INTO user (username, password, name, birth_date)
+--VALUES ('hong123', 'passwd', '홍길동', '1999-11-15');
 
 -- 홍길동 회원당 계좌 3개 개설 (계좌 ID: 1, 2, 3)
 INSERT IGNORE INTO account (user_id, account_number, balance, is_blocked)
