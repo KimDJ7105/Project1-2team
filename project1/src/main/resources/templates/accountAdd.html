@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>계좌 생성</title>
@@ -119,13 +120,17 @@
         <!-- 안내 문구 -->
         <div class="card">
             <div class="label">안내</div>
-            <div class="value">김멋사님의 새 계좌가 생성되었습니다.</div>
+            <div class="value">
+                <span th:text="${userName}">김멋사</span>님의 새 계좌가 생성되었습니다.
+            </div>
         </div>
 
         <!-- 계좌 정보 -->
         <div class="card">
             <div class="label">계좌번호</div>
-            <div class="account-number">987-654-32100</div>
+            <div class="account-number">
+                <span th:text="${newAccount}">987-654-32100</span>
+            </div>
         </div>
 
         <div class="card">
