@@ -5,13 +5,13 @@ spring:
     name: demo
   thymeleaf:
     cache: false
-  profiles:
-    include: local
+
   datasource:
 #    url: jdbc:mysql://mysql-service:3306/testdb?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false
-    url: jdbc:mysql://localhost:3306/testdb
+    url: ${DB_URL}
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 #    password: ${SPRING_DATASOURCE_PASSWORD:1234}
 
   #schema.sql 과 data.sql 관리 가능 ( always|never )
