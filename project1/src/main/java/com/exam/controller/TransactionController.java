@@ -16,10 +16,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class TransactionController {
 
     TransactionService transactionService;
+    TradingHistoryService tradingHistoryService;
 
-    public TransactionController(TransactionService transactionService) {
-        this.transactionService = transactionService;
-    }
+   public TransactionController(TransactionService transactionService,
+                             TradingHistoryService tradingHistoryService) {
+
+    this.transactionService = transactionService;
+    this.tradingHistoryService = tradingHistoryService;
+}
 
     // 계좌 이체 화면 요청
     @GetMapping("/sendMoney")
@@ -47,4 +51,13 @@ public class TransactionController {
         return "redirect:/home";
 
     }
+// 거래내역 조회
+@GetMapping("/transaction/history")
+public String showTransactionHistory(int accountId, Model model) {
+
+    model.addAttribute("historyList",
+            tradingHistoryService.tradingHistory(accountId));
+
+    return "transactionHistory";
+}
 }

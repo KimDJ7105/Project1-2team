@@ -15,14 +15,14 @@
     <select id="countTransferHistory" resultType="int">
 
         select count(*)
-        from tarding_history
+        from trading_history
         where sending_account = #{sendingAccount} and receiving_account = #{receivingAccount}
     </select>
 
     <!-- 최근 10분 내 송금 횟수 조회 -->
     <select id="countRecentTransfer" parameterType="int" resultType="int">
         select count(*)
-        from traidng_history
+        from trading_history
         where sending_account = #{sendingAccount} and trade_date >= NOW()-INTERVAL 10 MINUTE
     </select>
 
