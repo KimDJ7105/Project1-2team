@@ -1,3 +1,4 @@
+
 -- 테스트 회원 생성
 --INSERT IGNORE INTO user (username, password, name, birth_date)
 --VALUES ('hong123', 'passwd', '홍길동', '1999-11-15');
@@ -16,4 +17,5 @@
 -- 1번 거래 기록(위험 거래)에 대한 FDS 탐지 결과 매핑
 --INSERT IGNORE INTO fds (history_id, risk_rank, risk_score, risk_reason)
 --VALUES (1, '위험', 100, '단시간 내 비정상적 고액 송금 시도 및 해외 IP 우회 접속 탐지');
+
 SELECT 1;
