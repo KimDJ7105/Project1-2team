@@ -5,6 +5,7 @@ import com.exam.mapper.AccountMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -23,7 +24,7 @@ public class AccountServiceImpl implements AccountService {
     public AccountDTO findAccountById(int accountId) { return accountMapper.findAccountById(accountId);}
 
     @Override
-    public int deposit(int accountId, int amount) {return  accountMapper.deposit(accountId,amount);}
+    public int deposit(Map<String, Object> map) {return  accountMapper.deposit(map);}
 
     @Override
     public int insertAccount(AccountDTO accountDTO) {
@@ -40,7 +41,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public int withdraw(int accountId, int amount) {return accountMapper.withdraw(accountId,amount);}
+    public int withdraw(Map<String, Object> map) {return accountMapper.withdraw(map);}
 
     @Override
     public AccountDTO findAccountByAccountNumber(String accountNumber) {return accountMapper.findAccountByAccountNumber(accountNumber);}

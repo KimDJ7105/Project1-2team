@@ -25,17 +25,17 @@
     </select>
 
     <!-- 출금 계좌 잔액 차감 -->
-    <update id="withdraw">
+    <update id="withdraw" parameterType="map">
         update account
         set balance = balance - #{amount}
-        where account_id= #{accountId}
+        where account_number= #{accountNumber}
     </update>
 
     <!-- 입금 계좌 잔액 증가 -->
-    <update id="deposit">
+    <update id="deposit" parameterType="map">
         update account
         set balance = balance + #{amount}
-        where account_id= #{accountId}
+        where account_number= #{accountNumber}
     </update>
 
     <!-- 계좌 생성 -->
