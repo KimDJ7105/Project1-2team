@@ -113,6 +113,11 @@ public class TransactionServiceImpl implements TransactionService {
         // 거래내역 저장
         tradingHistoryService.insertTradingHistory(tradingHistoryDTO);
 
+        if(fdsDTO.getRiskScore() >= 40) { //주의 이상인 경우 DB에 저장.
+            fdsDTO.setHistoryId(tradingHistoryDTO.getHistoryId());
+            fdsService.insertFds(fdsDTO);
+        }
+
         return fdsDTO;
     }
 }

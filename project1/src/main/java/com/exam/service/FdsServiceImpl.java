@@ -143,7 +143,6 @@ public class FdsServiceImpl implements FdsService {
 
         // FDS 결과 DTO 생성
         FdsDTO fdsDTO = new FdsDTO();
-        fdsDTO.setHistoryId(tradingHistoryDTO.getHistoryId());
         fdsDTO.setAccountId(accountDTO.getAccountId());
         fdsDTO.setRiskScore(score);
         fdsDTO.setRiskRank(rank);
