@@ -144,7 +144,12 @@
 
     <div th:unless="${#lists.isEmpty(accounts)}">
         <div class="account-box" th:each="acc : ${accounts}">
-            <div class="account-number" th:text="${acc.accountNumber}">123-456-78910</div>
+            <div class="account-number"
+                 th:text="${#strings.substring(acc.accountNumber, 0, 3)} + '-' +
+                            ${#strings.substring(acc.accountNumber, 3, 6)} + '-' +
+                            ${#strings.substring(acc.accountNumber, 6, 11)}">
+                123-456-78910
+            </div>
 
             <div class="account-info">
                 잔액: <span th:text="${#numbers.formatInteger(acc.balance, 1, 'COMMA')} + '원'">0원</span>

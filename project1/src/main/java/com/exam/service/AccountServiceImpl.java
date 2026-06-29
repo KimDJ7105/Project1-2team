@@ -31,7 +31,7 @@ public class AccountServiceImpl implements AccountService {
         String bankCode = "123";
         int middleNumber = ThreadLocalRandom.current().nextInt(100, 1000);
         int lastNumber = ThreadLocalRandom.current().nextInt(10000, 100000);
-        String account = bankCode + "-" + middleNumber + "-" + lastNumber;
+        String account = bankCode + middleNumber + lastNumber;
 
         accountDTO.setAccountNumber(account);
 
