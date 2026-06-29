@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -72,6 +73,14 @@ public class AccountController {
         int n = accountService.insertAccount(dto);
         if(n>0) {
             System.out.println("account inserted");
+
+            // --- 테스트를 위해 시작 금액 지급
+            Map<String, Object> paramMap = new HashMap<>();
+            paramMap.put("accountNumber", dto.getAccountNumber());
+            paramMap.put("amount", 5000000);
+            accountService.deposit(paramMap);
+
+
             rttr.addFlashAttribute("newAccount", dto.getAccountNumber());
             rttr.addFlashAttribute("userName", loginUser.getName());
         }
