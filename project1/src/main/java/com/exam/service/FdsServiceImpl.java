@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FdsServiceImpl implements FdsService {
@@ -33,6 +34,19 @@ public class FdsServiceImpl implements FdsService {
 
         // 위험 사유
         String reason = "";
+
+        // 과거 FDS 이력 가져오기
+        List<FdsDTO> fdsList =  fdsMapper.findFds(accountDTO.getAccountId());
+        if (fdsList != null) {
+            long highRiskCount = fdsList.stream()
+                    .filter(dto -> dto.getRiskScore() >= 70)
+                    .count();
+
+            if (highRiskCount >= 3) {
+                score += 20;
+                reason += "-고위험 계좌\n";
+            }
+        }
 
         // 거래 금액 가져오기
         int amount = tradingHistoryDTO.getAmount();
@@ -134,6 +148,11 @@ public class FdsServiceImpl implements FdsService {
         fdsDTO.setRiskScore(score);
         fdsDTO.setRiskRank(rank);
         fdsDTO.setRiskReason(reason);
+
+        if(fdsDTO.getRiskScore() >= 40) { //주의 이상인 경우 DB에 저장.
+            fdsMapper.insertFds(fdsDTO);
+        }
+
         return fdsDTO;
 
     }
