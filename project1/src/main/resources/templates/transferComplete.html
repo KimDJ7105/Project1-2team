@@ -169,29 +169,28 @@ body{
 
         <div class="item">
             <div class="label" th:text="${tradingHistoryDTO.tradeType + ' 금액'}">송금 금액</div>
-            <div class="value amount" th:text="${#numbers.formatInteger(tradingHistoryDTO.amount, 1, 'COMMA') + '원'}">500,000원</div>
+            <div class="value amount" th:text="${#numbers.formatInteger(tradingHistoryDTO.amount, 3, 'COMMA') + '원'}">500,000원</div>
         </div>
 
         <div class="item" th:if="${tradingHistoryDTO.tradeType == '송금'}">
             <div class="label">받는 계좌</div>
-            <div class="value" th:text="${tradingHistoryDTO.receivingAccountNumber}">123-456-78910</div>
+            <div class="value" th:text="${#strings.substring(tradingHistoryDTO.receivingAccountNumber, 0, 3) + '-' + #strings.substring(tradingHistoryDTO.receivingAccountNumber, 3, 6) + '-' + #strings.substring(tradingHistoryDTO.receivingAccountNumber, 6, 11)}">123-456-78910</div>
         </div>
 
         <div class="item" th:if="${tradingHistoryDTO.tradeType == '입금' or tradingHistoryDTO.tradeType == '출금'}">
             <div class="label">거래 계좌</div>
-            <div class="value" th:text="${myAccountNumber}">123-456-78910</div>
+            <div class="value" th:text="${#strings.substring(myAccountNumber, 0, 3) + '-' + #strings.substring(myAccountNumber, 3, 6) + '-' + #strings.substring(myAccountNumber, 6, 11)}">123-456-78910</div>
+        </div>
+
+        <div class="item">
+            <div class="label">남은 잔액</div>
+            <div class="value balance" th:text="${#numbers.formatInteger(currentBalance, 3, 'COMMA') + '원'}">850,000원</div>
         </div>
 
         <div class="item">
             <div class="label" th:text="${tradingHistoryDTO.tradeType == '입금' ? '통장 메모' : '전달 메세지'}">메세지</div>
             <div class="value" th:text="${tradingHistoryDTO.message}">000</div>
         </div>
-
-        <div class="item">
-            <div class="label">남은 잔액</div>
-            <div class="value balance" th:text="${#numbers.formatInteger(currentBalance, 1, 'COMMA') + '원'}">850,000원</div>
-        </div>
-
     </div>
 
     <div class="buttonArea">

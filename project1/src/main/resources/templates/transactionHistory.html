@@ -178,7 +178,7 @@ tr:hover{
 
                 <td th:text="${history.tradeType}"></td>
 
-                <td th:text="${history.amount + '원'}"></td>
+                <td th:text="${#numbers.formatInteger(history.amount, 3, 'COMMA') + '원'}">500,000원</td>
 
                 <td th:classappend="${history.fail} ? 'danger' : 'safe'"
                     th:text="${history.fail} ? '위험' : '정상'">
