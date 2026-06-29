@@ -43,13 +43,13 @@ public class TransactionServiceImpl implements TransactionService {
 
         // 출금 계좌 없는 경우
         if (sendingAccount == null) {
-            tradingHistoryDTO.setIsFail(true);
-            tradingHistoryDTO.setFailMsg("출금 계좌가 존재하지 않습니다.");
-            tradingHistoryService.insertTradingHistory(tradingHistoryDTO);
             FdsDTO fdsDTO = new FdsDTO();
             fdsDTO.setFdsId(-1);
+            tradingHistoryDTO.setFailMsg("출금 계좌가 존재하지 않습니다.");
             return fdsDTO;
         }
+            //tradingHistoryService.insertTradingHistory(tradingHistoryDTO);
+
 
         //보내는 사람 기록 (메시지가 없으면 이름으로 설정)
         if(tradingHistoryDTO.getMessage() == null || tradingHistoryDTO.getMessage().equals("")) {
@@ -64,13 +64,12 @@ public class TransactionServiceImpl implements TransactionService {
 
         // 입금 계좌 없는 경우
         if (receivingAccount == null) {
-            tradingHistoryDTO.setIsFail(true);
-            tradingHistoryDTO.setFailMsg("입금 계좌가 존재하지 않습니다.");
-            tradingHistoryService.insertTradingHistory(tradingHistoryDTO);
             FdsDTO fdsDTO = new FdsDTO();
             fdsDTO.setFdsId(-1);
+            tradingHistoryDTO.setFailMsg("송금하실 계좌가 존재하지 않습니다.");
             return fdsDTO;
         }
+            //tradingHistoryService.insertTradingHistory(tradingHistoryDTO);
 
         // 조회한 accountId 저장
         tradingHistoryDTO.setReceivingAccount(receivingAccount.getAccountId());
