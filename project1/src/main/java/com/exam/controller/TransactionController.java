@@ -3,6 +3,7 @@ package com.exam.controller;
 import com.exam.dto.AccountDTO;
 import com.exam.dto.FdsDTO;
 import com.exam.dto.TradingHistoryDTO;
+import com.exam.dto.UserDTO;
 import com.exam.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -226,14 +227,33 @@ public class TransactionController {
 
     // 거래내역 조회
     @GetMapping("/history")
-    public String showTransactionHistory(int accountId, Model model) {
+    public String historyPage(@RequestParam(value = "accountId", required = false) Integer accountId,
+                              HttpSession session, Model model) {
 
+        //유저의 고유 식별자
+        UserDTO loginUser = (UserDTO) session.getAttribute("myLogin");
+        if (loginUser == null) {
+            return "redirect:/home"; // 프로젝트의 로그인 혹은 메인 주소 경로에 맞게 지정하세요
+        }
+        int userId = loginUser.getUserId();
+
+        // 실제 계좌 리스트
+        List<AccountDTO> accountList = accountService.findAccount(userId);
+        model.addAttribute("accountList", accountList);
+
+        //accountId가 없다면 리스트의 첫 번째 대표 계좌를 기본값으로 지정
+        if (accountId == null && !accountList.isEmpty()) {
+            accountId = accountList.get(0).getAccountId();
+        }
+
+        // 타겟 계좌의 정상 거래 내역들만 필터링해서 토스
         List<TradingHistoryDTO> list = tradingHistoryService.tradingHistory(accountId);
-        List<TradingHistoryDTO> filteredList = list.stream()
-                .filter(dto -> !dto.isFail()) // 실패는 필터링
+        List<TradingHistoryDTO> successList = list.stream()
+                .filter(dto -> !dto.isFail())
                 .collect(Collectors.toList());
 
-        model.addAttribute("historyList",filteredList);
+        model.addAttribute("historyList", successList);
+        model.addAttribute("currentAccountId", accountId);
 
         return "transactionHistory";
     }

@@ -44,17 +44,6 @@ public class AccountController {
     // 계좌 추가 화면
     @GetMapping("/createAccount")
     public String showCreatedAccount(HttpServletRequest request, Model model) {
-//        Map<String, ?> flashMap = org.springframework.web.servlet.support.RequestContextUtils.getInputFlashMap(request);
-//
-//        if (flashMap != null) {
-//            // 2. 포스트 단에서 담았던 진짜 알맹이들을 수신합니다.
-//            String userName = (String) flashMap.get("userName");
-//            String newAccount = (String) flashMap.get("newAccount");
-//
-//            // 3. 타임리프 화면 단까지 완벽하게 도달할 수 있도록 Model 상자에 패킹합니다.
-//            model.addAttribute("userName", userName);
-//            model.addAttribute("newAccount", newAccount);
-//        }
         return "accountAdd";
     }
 
@@ -73,7 +62,7 @@ public class AccountController {
         int n = accountService.insertAccount(dto);
         if(n>0) {
             System.out.println("account inserted");
-            
+
             rttr.addFlashAttribute("newAccount", dto.getAccountNumber());
             rttr.addFlashAttribute("userName", loginUser.getName());
         }

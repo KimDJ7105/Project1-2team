@@ -149,14 +149,16 @@ tr:hover{
 
     <!-- 계좌 선택 (현재는 고정) -->
     <div class="accountArea">
+        <label style="font-weight: bold; font-size: 16px; margin-right: 10px;">계좌 선택</label>
 
-        <label>계좌 선택 ▼</label>
-
-        <select>
-            <option>123-456-78910</option>
-            <option>321-234-25252</option>
+        <select id="accountDropdown" onchange="changeAccount(this)" style="padding: 8px 12px; border-radius: 10px; border: 1px solid #ccc; font-size: 14px; font-weight: bold; color: #333;">
+            <option th:each="acc : ${accountList}"
+                    th:value="${acc.accountId}"
+                    th:text="${#strings.substring(acc.accountNumber, 0, 3) + '-' + #strings.substring(acc.accountNumber, 3, 6) + '-' + #strings.substring(acc.accountNumber, 6, 11)}"
+                    th:selected="${acc.accountId == currentAccountId}">
+                123-456-78910
+            </option>
         </select>
-
     </div>
 
     <!-- 테이블 -->
@@ -199,6 +201,15 @@ tr:hover{
     </div>
 
 </div>
+
+<script>
+    function changeAccount(selectElement) {
+        const selectedId = selectElement.value;
+        if (selectedId) {
+            location.href = "/history?accountId=" + selectedId;
+        }
+    }
+</script>
 
 </body>
 </html>
