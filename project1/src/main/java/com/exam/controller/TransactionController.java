@@ -4,6 +4,7 @@ import com.exam.dto.TradingHistoryDTO;
 import com.exam.service.AccountService;
 import com.exam.service.FdsService;
 import com.exam.service.TradingHistoryService;
+import com.exam.service.TransactionService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -14,14 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class TransactionController {
 
-    AccountService accountService;
-    TradingHistoryService tradingHistoryService;
-    FdsService fdsService;
+    TransactionService transactionService;
 
-    public TransactionController(AccountService accountService, TradingHistoryService tradingHistoryService, FdsService fdsService) {
-        this.accountService = accountService;
-        this.tradingHistoryService = tradingHistoryService;
-        this.fdsService = fdsService;
+    public TransactionController(TransactionService transactionService) {
+        this.transactionService = transactionService;
     }
 
     // 계좌 이체 화면 요청
@@ -35,12 +32,18 @@ public class TransactionController {
     // 계좌 이체 처리
     @PostMapping("/sendMoney")
     public String sendMoneyProcess(TradingHistoryDTO tradingHistoryDTO, Model model) {
-        //출금 계좌
-        //잔액 확인
-        //FDS 검사
-        //송금 처리
-        //거래 기록 저장하기
 
+        // 송금 서비스 실행
+        int result = transactionService.sendMoneyProcess(tradingHistoryDTO);
+
+        // 송금 실패
+        if (result == 0) {
+            model.addAttribute("errorMessage", "송금에 실패했습니다.");
+            model.addAttribute("tradingHistoryDTO", tradingHistoryDTO);
+            return "sendMoney";
+        }
+
+        // 송금 성공
         return "redirect:/home";
 
     }

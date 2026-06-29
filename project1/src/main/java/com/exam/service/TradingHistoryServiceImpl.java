@@ -10,12 +10,21 @@ import java.util.List;
 @Service
 public class TradingHistoryServiceImpl implements TradingHistoryService {
 
-    TradingHistoryMapper memberMapper;
+    TradingHistoryMapper tradingHistoryMapper;
 
-    public TradingHistoryServiceImpl(TradingHistoryMapper memberMapper) {
-        this.memberMapper = memberMapper;
+    public TradingHistoryServiceImpl(TradingHistoryMapper tradingHistoryMapper) {
+        this.tradingHistoryMapper = tradingHistoryMapper;
     }
 
     @Override
-    public List<TradingHistoryDTO> tradingHistory(int accountId) { return memberMapper.tradingHistory(accountId); }
+    public List<TradingHistoryDTO> tradingHistory(int accountId) { return tradingHistoryMapper.tradingHistory(accountId);}
+
+    @Override
+    public int insertTradingHistory(TradingHistoryDTO tradingHistoryDTO) {return tradingHistoryMapper.insertTradingHistory(tradingHistoryDTO);}
+
+    @Override
+    public int countTransferHistory(int sendingAccount, int receivingAccount) {return tradingHistoryMapper.countTransferHistory(sendingAccount, receivingAccount);}
+
+    @Override
+    public int countRecentTransfer(int sendingAccount) {return tradingHistoryMapper.countRecentTransfer(sendingAccount);}
 }

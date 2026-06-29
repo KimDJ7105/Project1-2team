@@ -9,12 +9,22 @@ import java.util.List;
 @Service
 public class AccountServiceImpl implements AccountService {
 
-    AccountMapper memberMapper;
+    AccountMapper accountMapper;
 
-    public AccountServiceImpl(AccountMapper memberMapper) {
-        this.memberMapper = memberMapper;
+    public AccountServiceImpl(AccountMapper accountMapper) {
+        this.accountMapper = accountMapper;
     }
 
     @Override
-    public List<AccountDTO> findAccount(int userId) { return memberMapper.findAccount(userId); }
+    public List<AccountDTO> findAccount(int userId) { return accountMapper.findAccount(userId);}
+
+    @Override
+    public AccountDTO findAccountById(int accountId) { return accountMapper.findAccountById(accountId);}
+
+    @Override
+    public int deposit(int accountId, int amount) {return  accountMapper.deposit(accountId,amount);}
+
+    @Override
+    public int withdraw(int accountId, int amount) {return accountMapper.withdraw(accountId,amount);}
+
 }
