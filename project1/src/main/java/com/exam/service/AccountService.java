@@ -17,4 +17,5 @@ public interface AccountService {
     int deposit(int accountId, int amount);
 
     // 계좌 생성
+    int insertAccount(AccountDTO accountDTO);
 }

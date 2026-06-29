@@ -18,4 +18,6 @@ public interface AccountMapper {
     // 입금 계좌 잔액 증가
     int deposit(int accountId, int amount);
 
+    // 계좌 생성
+    int insertAccount(AccountDTO accountDTO);
 }

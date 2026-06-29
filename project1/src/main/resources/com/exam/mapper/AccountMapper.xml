@@ -31,4 +31,10 @@
         where account_id= #{accountId}
     </update>
 
+    <!-- 계좌 생성 -->
+    <insert id="insertAccount" parameterType="AccountDTO">
+        insert into account(user_id, account_number)
+        values( #{userId}, #{accountNumber})
+    </insert>
+
 </mapper>
