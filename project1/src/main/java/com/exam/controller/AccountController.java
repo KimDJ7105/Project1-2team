@@ -3,12 +3,17 @@ package com.exam.controller;
 import com.exam.dto.AccountDTO;
 import com.exam.dto.UserDTO;
 import com.exam.service.AccountService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class AccountController {
@@ -38,7 +43,35 @@ public class AccountController {
 
     // 계좌 추가 화면
     @GetMapping("/createAccount")
-    public String createAccount() {
-        return "createAccount";
+    public String showCreatedAccount(HttpServletRequest request, Model model) {
+        return "accountAdd";
+    }
+
+    @PostMapping("/createAccount")
+    public String createAccount( HttpSession session, RedirectAttributes rttr ) {
+        UserDTO loginUser = (UserDTO) session.getAttribute("myLogin");
+
+        //로그인 안되어 있으면 로그인 페이지로 가기
+        if (loginUser == null) {
+            return "redirect:/login";
+        }
+
+        //계좌 생성
+        AccountDTO dto = new AccountDTO();
+        dto.setUserId(loginUser.getUserId());
+        int n = accountService.insertAccount(dto);
+        if(n>0) {
+            System.out.println("account inserted");
+
+            rttr.addFlashAttribute("newAccount", dto.getAccountNumber());
+            rttr.addFlashAttribute("userName", loginUser.getName());
+        }
+        else {
+            // 계좌 생성 실패한 경우. 이후 실패 페이지를 만들거나 예외 처리 필요.
+            System.out.println("account insert failed");
+        }
+
+
+        return "redirect:/createAccount";
     }
 }

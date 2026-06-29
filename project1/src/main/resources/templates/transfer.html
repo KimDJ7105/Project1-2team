@@ -1,125 +1,170 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>송금하기</title>
+    <meta charset="UTF-8">
+    <title>송금하기</title>
 
-<style>
-    body {
-        margin: 0;
-        font-family: "Segoe UI", Arial;
-        background: linear-gradient(135deg, #eaf6ff, #f7fbff);
-    }
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial;
+            background: linear-gradient(135deg, #eaf6ff, #f7fbff);
+        }
 
-    /* 상단 */
-    .header {
-        background: linear-gradient(90deg, #3bb6ff, #5ad7ff);
-        color: white;
-        padding: 20px;
-        font-size: 22px;
-        font-weight: bold;
-    }
+        /* 상단 */
+        .header {
+            background: linear-gradient(90deg, #3bb6ff, #5ad7ff);
+            color: white;
+            padding: 20px;
+            font-size: 22px;
+            font-weight: bold;
+        }
 
-    .divider {
-        height: 1px;
-        background: #d6ecff;
-    }
+        .divider {
+            height: 1px;
+            background: #d6ecff;
+        }
 
-    /* 전체 박스 */
-    .container {
-        padding: 25px;
-    }
+        /* 전체 박스 */
+        .container {
+            padding: 25px;
+        }
 
-    /* 입력 */
-    .input-box {
-        background: white;
-        padding: 18px;
-        border-radius: 16px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        margin-bottom: 18px;
-    }
+        /* 입력 */
+        .input-box {
+            background: white;
+            padding: 18px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 18px;
+        }
 
-    label {
-        font-weight: bold;
-        font-size: 14px;
-        color: #333;
-    }
+        label {
+            font-weight: bold;
+            font-size: 14px;
+            color: #333;
+        }
 
-    /* 계좌 입력 (구분짓기 : 3-3-5) */
-    .account-input {
-        display: flex;
-        gap: 8px;
-        margin-top: 8px;
-    }
+        /* 계좌 입력 (구분짓기 : 3-3-5) */
+        .account-input {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
 
-    .account-input input {
-        flex: 1;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        text-align: center;
-        font-size: 14px;
-    }
+        .account-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
 
-    /* 금액 */
-    .money-input {
-        width: 100%;
-        padding: 10px;
-        margin-top: 8px;
-        border-radius: 10px;
-        border: 1px solid #ccc;
-        font-size: 14px;
-    }
+        /* 금액 */
+        .money-input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
 
-    .warn {
-        color: red;
-        font-size: 12px;
-        margin-top: 5px;
-    }
+        .warn {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
 
-    /* 메세지 */
-    textarea {
-        width: 100%;
-        margin-top: 8px;
-        padding: 10px;
-        border-radius: 10px;
-        border: 1px solid #ccc;
-        resize: none;
-        height: 80px;
-    }
+        /* 메세지 */
+        textarea {
+            width: 100%;
+            margin-top: 8px;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            resize: none;
+            height: 80px;
+        }
 
-    /* 버튼 */
-    .btn-box {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 25px;
-    }
+        /* 버튼 */
+        .btn-box {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
 
-    .cancel-btn {
-        background: #ccc;
-        color: white;
-        padding: 12px 18px;
-        border-radius: 25px;
-        text-decoration: none;
-        font-weight: bold;
-    }
+        .cancel-btn {
+            background: #ccc;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+        }
 
-    .send-btn {
-        background: linear-gradient(90deg, #1e88e5, #42a5f5);
-        color: white;
-        padding: 12px 22px;
-        border-radius: 25px;
-        text-decoration: none;
-        font-weight: bold;
-        box-shadow: 0 5px 12px rgba(0,0,0,0.15);
-        transition: 0.2s;
-    }
+        .send-btn {
+            background: linear-gradient(90deg, #1e88e5, #42a5f5);
+            color: white;
+            padding: 12px 22px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+            transition: 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
 
-    .send-btn:hover {
-        transform: scale(1.05);
-    }
+        .send-btn:hover {
+            transform: scale(1.05);
+        }
 
-</style>
+        /* 🌟 [추가] 시인성 극대화를 위한 옐로우 경고 알림 박스 디자인 스펙 */
+        .error-alert-box {
+            background-color: #fffde7;
+            border: 1px solid #fff59d;
+            border-left: 5px solid #fbc02d;
+            color: #f57f17;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000;
+        }
+        .modal-box {
+            background: white; padding: 25px; border-radius: 16px;
+            width: 350px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        .modal-title {
+            font-size: 18px; font-weight: bold; color: #e53935; margin-bottom: 12px;
+        }
+        .modal-text {
+            font-size: 14px; color: #555; line-height: 1.5; margin-bottom: 20px;
+        }
+        .modal-btn-box {
+            display: flex; gap: 10px; justify-content: center;
+        }
+        .modal-btn {
+            padding: 10px 20px; border-radius: 20px; border: none; font-weight: bold; cursor: pointer;
+        }
+        .modal-cancel { background: #eee; color: #333; }
+        .modal-bypass { background: #e53935; color: white; }
+        .modal-bypass:disabled { background: #ccc; cursor: not-allowed; }
+    </style>
 </head>
 
 <body>
@@ -128,37 +173,131 @@
 <div class="divider"></div>
 
 <div class="container">
+    <div class="error-alert-box" th:if="${errorMessage != null and (fdsRisk == null or !fdsRisk)}">
+        <span>⚠️ <span th:text="${errorMessage}">오류 메시지</span></span>
+    </div>
 
-    <!-- 받는 계좌 -->
-    <div class="input-box">
-        <label>받는 계좌</label>
-        <div class="account-input">
-            <input type="text" maxlength="3" placeholder="123">
-            <input type="text" maxlength="3" placeholder="456">
-            <input type="text" maxlength="5" placeholder="78910">
+    <form th:action="@{/sendMoney}" method="post" th:object="${tradingHistoryDTO}" onsubmit="return combineAccountNumber()">
+        <input type="hidden" th:field="*{sendingAccount}" id="sendingAccount">
+        <input type="hidden" th:field="*{receivingAccountNumber}" id="receivingAccountNumber">
+        <input type="hidden" th:field="*{fdsBypass}" id="fdsBypass">
+
+        <div class="input-box">
+            <label>받는 계좌</label>
+            <div class="account-input">
+                <input type="text" id="acc1" maxlength="3" placeholder="123"
+                       th:value="${tradingHistoryDTO.receivingAccountNumber != null and #strings.length(tradingHistoryDTO.receivingAccountNumber) == 11} ? ${#strings.substring(tradingHistoryDTO.receivingAccountNumber, 0, 3)} : ''" required>
+                <input type="text" id="acc2" maxlength="3" placeholder="456"
+                       th:value="${tradingHistoryDTO.receivingAccountNumber != null and #strings.length(tradingHistoryDTO.receivingAccountNumber) == 11} ? ${#strings.substring(tradingHistoryDTO.receivingAccountNumber, 3, 6)} : ''" required>
+                <input type="text" id="acc3" maxlength="5" placeholder="78910"
+                       th:value="${tradingHistoryDTO.receivingAccountNumber != null and #strings.length(tradingHistoryDTO.receivingAccountNumber) == 11} ? ${#strings.substring(tradingHistoryDTO.receivingAccountNumber, 6, 11)} : ''" required>
+            </div>
+        </div>
+
+        <div class="input-box">
+            <label>금액</label>
+            <input type="number" th:field="*{amount}" id="amountInput" class="money-input" placeholder="송금 금액 입력" max="2147483647" required>
+            <div class="warn">※ 1원 이상, 21억 원 이하로 입력해야 합니다</div>
+        </div>
+
+        <div class="input-box">
+            <label>메세지</label>
+            <textarea th:field="*{message}" placeholder="보내는 사람 이름 또는 메세지를 입력하세요"></textarea>
+        </div>
+
+        <div class="btn-box">
+            <a href="/home" class="cancel-btn">취소</a>
+            <button type="submit" class="send-btn">송금하기</button>
+        </div>
+    </form>
+</div>
+
+<div class="modal-overlay" th:if="${fdsRisk}" id="fdsModal">
+    <div class="modal-box" th:with="fds=${fdsResultDTO}">
+        <div class="modal-title"
+             th:style="${fds.riskRank == '위험'} ? 'color: #e53935;' : (${fds.riskRank == '주의'} ? 'color: #fb8c00;' : 'color: #43a047;')">
+            <span th:text="'⚠️ 이상 거래 감지 (' + ${fds.riskRank} + ')'">⚠️ 이상 거래 감지 (위험)</span>
+        </div>
+        <div class="modal-text">
+            현재 송금 요청에서 이상 징후가 발견되었습니다.<br>
+            <span style="font-weight: bold;">[종합 위험 점수: <span th:text="${fds.riskScore}">0</span>점]</span>
+
+            <div style="text-align: left; background: #fff5f5; border: 1px solid #ffe3e3; padding: 12px; border-radius: 10px; margin: 15px 0;">
+                <div style="font-size: 13px; font-weight: bold; color: #555; margin-bottom: 6px;">🔍 실시간 위험 판정 사유:</div>
+
+                <ul style="margin: 0; padding-left: 20px; font-size: 13px; color: #c62828; font-weight: 500;">
+                    <li th:each="reason : ${#strings.arraySplit(fds.riskReason, '&#10;')}"
+                        th:text="${#strings.replace(reason, '-', '')}">
+                        위험 요인 리스트
+                    </li>
+                </ul>
+            </div>
+
+            <div id="timer-zone" style="margin-bottom: 15px;">
+                자산 보호를 위해 <span id="timer" style="color: red; font-weight: bold;">5</span>초 후에 송금이 가능합니다.
+            </div>
+        </div>
+        <div class="modal-btn-box">
+            <button type="button" class="modal-btn modal-cancel" onclick="closeFdsModal()">취소</button>
+            <button type="button" class="modal-btn modal-bypass" id="bypassBtn" onclick="submitFdsBypass()" disabled>송금 진행</button>
         </div>
     </div>
-
-    <!-- 금액 -->
-    <div class="input-box">
-        <label>금액</label>
-        <input type="number" class="money-input" placeholder="송금 금액 입력">
-        <div class="warn">※ 1원 이상 입력해야 합니다</div>
-    </div>
-
-    <!-- 메세지 -->
-    <div class="input-box">
-        <label>메세지</label>
-        <textarea placeholder="보내는 사람 이름 또는 메세지를 입력하세요"></textarea>
-    </div>
-
-    <!-- 버튼 -->
-    <div class="btn-box">
-        <a href="/home" class="cancel-btn">취소</a>
-        <a href="#" class="send-btn">송금하기</a>
-    </div>
-
 </div>
+
+<script>
+    function combineAccountNumber() {
+        const acc1 = document.getElementById("acc1").value.trim();
+        const acc2 = document.getElementById("acc2").value.trim();
+        const acc3 = document.getElementById("acc3").value.trim();
+
+        // 🌟 [추가] 자바 정수(Int) 오버플로우 공격 및 비정상 거래 원천 차단 가드레일
+        const amount = parseInt(document.getElementById("amountInput").value, 10);
+        const INT_MAX = 2147483647;
+
+        if (amount > INT_MAX) {
+            alert("이체 한도 초과: 1회 송금 가능한 최대 금액은 21억 4,748만 3,647원입니다.");
+            return false;
+        }
+
+        if (acc1.length !== 3 || acc2.length !== 3 || acc3.length !== 5) {
+            alert("받는 계좌번호 규격(3자-3자-5자)을 정확히 완성해 주세요.");
+            return false;
+        }
+
+        document.getElementById("receivingAccountNumber").value = acc1 + acc2 + acc3;
+        return true;
+    }
+
+    if (document.getElementById("fdsModal")) {
+        let timeLeft = 5;
+        const timerElement = document.getElementById("timer");
+        const bypassButton = document.getElementById("bypassBtn");
+
+        const countdown = setInterval(() => {
+            timeLeft--;
+            if (timerElement) {
+                timerElement.textContent = timeLeft;
+            }
+
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                document.getElementById("timer-zone").innerHTML = "위험 요소를 확인하셨다면 아래 버튼을 눌러 송금을 진행해 주세요.";
+                if (bypassButton) {
+                    bypassButton.disabled = false;
+                }
+            }
+        }, 1000);
+    }
+
+    function closeFdsModal() {
+        location.href = "/home";
+    }
+
+    function submitFdsBypass() {
+        document.getElementById("fdsBypass").value = "true";
+        document.forms[0].submit();
+    }
+</script>
 
 </body>
 </html>

@@ -16,4 +16,9 @@
         where username = #{username}
     </select>
 
+    <!-- 식별번호로 유저 조회 -->
+    <select id="findUser" parameterType="int" resultType="UserDTO">
+        select user_id, username, name, birth_date from user
+        where user_id = #{user_id}
+    </select>
 </mapper>

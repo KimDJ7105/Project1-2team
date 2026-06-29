@@ -127,23 +127,32 @@
     <div class="section-title">내 계좌</div>
 
     <div th:if="${#lists.isEmpty(accounts)}">
-        <a th:href="@{/createAccount}" class="account-box" style="display: block; text-decoration: none; color: #555; text-align: center; padding: 30px 20px; border-left-color: #f44336;">
-            <div style="font-size: 16px; font-weight: bold; color: #e53935; margin-bottom: 8px;">
-                텅 빈 금고 ☁️
-            </div>
-            <div style="font-size: 14px;">
-                현재 개설된 클라우드 계좌가 존재하지 않습니다. <br>
-                <strong style="color: #c62828; text-decoration: underline;">여기에서 첫 계좌를 생성</strong>해 보세요!
-            </div>
-        </a>
+        <form th:action="@{/createAccount}" method="post">
+
+            <button type="submit" class="account-box" style="display: block; width: 100%; text-decoration: none; color: #555; text-align: center; padding: 30px 20px; border-top: none; border-right: none; border-bottom: none; border-left: 5px solid #f44336; background: white; cursor: pointer; font-family: inherit;">
+                <div style="font-size: 16px; font-weight: bold; color: #e53935; margin-bottom: 8px;">
+                    텅 빈 금고 ☁️
+                </div>
+                <div style="font-size: 14px;">
+                    현재 개설된 클라우드 계좌가 존재하지 않습니다. <br>
+                    <strong style="color: #c62828; text-decoration: underline;">여기에서 첫 계좌를 생성</strong>해 보세요!
+                </div>
+            </button>
+
+        </form>
     </div>
 
     <div th:unless="${#lists.isEmpty(accounts)}">
         <div class="account-box" th:each="acc : ${accounts}">
-            <div class="account-number" th:text="${acc.accountNumber}">123-456-78910</div>
+            <div class="account-number"
+                 th:text="${#strings.substring(acc.accountNumber, 0, 3)} + '-' +
+                            ${#strings.substring(acc.accountNumber, 3, 6)} + '-' +
+                            ${#strings.substring(acc.accountNumber, 6, 11)}">
+                123-456-78910
+            </div>
 
             <div class="account-info">
-                잔액: <span th:text="${#numbers.formatInteger(acc.balance, 3, 'COMMA')} + '원'">0원</span>
+                잔액: <span th:text="${#numbers.formatInteger(acc.balance, 1, 'COMMA')} + '원'">0원</span>
             </div>
             <div class="account-info">
                 개설일: <span th:text="${acc.createdAt}">2025-01-03</span>

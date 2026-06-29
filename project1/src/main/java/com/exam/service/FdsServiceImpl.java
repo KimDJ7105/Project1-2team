@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FdsServiceImpl implements FdsService {
@@ -34,6 +35,19 @@ public class FdsServiceImpl implements FdsService {
         // 위험 사유
         String reason = "";
 
+        // 과거 FDS 이력 가져오기
+        List<FdsDTO> fdsList =  fdsMapper.findFds(accountDTO.getAccountId());
+        if (fdsList != null) {
+            long highRiskCount = fdsList.stream()
+                    .filter(dto -> dto.getRiskScore() >= 70)
+                    .count();
+
+            if (highRiskCount >= 3) {
+                score += 20;
+                reason += "-고위험 계좌\n";
+            }
+        }
+
         // 거래 금액 가져오기
         int amount = tradingHistoryDTO.getAmount();
 
@@ -46,16 +60,16 @@ public class FdsServiceImpl implements FdsService {
 
         } else if (amount <= 500000) {
             score +=5;
-            reason += "소액 거래\n";
+            reason += "-소액 거래\n";
         } else if (amount <= 1000000) {
             score +=10;
-            reason += "중간 금액\n";
+            reason += "-중간 금액\n";
         } else if (amount <= 3000000) {
             score +=20;
-            reason += "고액 거래\n";
+            reason += "-고액 거래\n";
         } else {
             score +=35;
-            reason += "매우 고액 거래\n";
+            reason += "-매우 고액 거래\n";
         }
 
         // 거래 시간
@@ -66,17 +80,17 @@ public class FdsServiceImpl implements FdsService {
 
         } else if (hour >= 22) {
             score +=10;
-            reason += "야간 거래\n";
+            reason += "-야간 거래\n";
         } else {
             score +=20;
-            reason += "심야 거래\n";
+            reason += "-심야 거래\n";
         }
 
         //신규 계좌 여부 (기존 송금 이력 있는지 없는지 검사)
         int transferHistorycount=tradingHistoryService.countTransferHistory(tradingHistoryDTO.getSendingAccount(), tradingHistoryDTO.getReceivingAccount());
         if (transferHistorycount==0) {
             score +=20;
-            reason += "신규 계좌\n";
+            reason += "-신규 계좌\n";
         } else {
 
         }
@@ -88,10 +102,10 @@ public class FdsServiceImpl implements FdsService {
 
         } else if (recentTransferCount<=3) {
             score +=10;
-            reason += "반복 거래\n";
+            reason += "-반복 거래\n";
         } else {
             score +=20;
-            reason += "과도한 반복 거래\n";
+            reason += "-과도한 반복 거래\n";
         }
 
 
@@ -103,10 +117,10 @@ public class FdsServiceImpl implements FdsService {
 
             } else if (ratio <= 0.7) {
                 score +=10;
-                reason += "큰 금액\n";
+                reason += "-큰 금액\n";
             } else {
                 score +=20;
-                reason += "대부분 인출\n";
+                reason += "-대부분 인출\n";
             }
 
             //해외 거래 ???? 일단 보류하겠습니다.
@@ -129,11 +143,11 @@ public class FdsServiceImpl implements FdsService {
 
         // FDS 결과 DTO 생성
         FdsDTO fdsDTO = new FdsDTO();
-        fdsDTO.setHistoryId(tradingHistoryDTO.getHistoryId());
         fdsDTO.setAccountId(accountDTO.getAccountId());
         fdsDTO.setRiskScore(score);
         fdsDTO.setRiskRank(rank);
         fdsDTO.setRiskReason(reason);
+
         return fdsDTO;
 
     }

@@ -31,4 +31,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO login(String username) {
         return memberMapper.login(username);
     }
+
+    @Override
+    public UserDTO findUser(int userId) {return memberMapper.findUser(userId);}
 }

@@ -13,7 +13,6 @@
 
     <!-- FDS 값 저장 -->
     <insert id="insertFds" parameterType="FdsDTO">
-
         insert into fds(history_id, account_id, risk_rank, risk_score, risk_reason)
         values(#{historyId}, #{accountId}, #{riskRank}, #{riskScore}, #{riskReason})
     </insert>

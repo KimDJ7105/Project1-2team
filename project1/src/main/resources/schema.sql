@@ -1,7 +1,7 @@
--- 0. 충돌 방지를 위해 DB 전부 밀어버리기
-DROP TABLE IF EXISTS fds, trading_history, login_history, account, user;
+-- 0. 테스트시 충돌 방지를 위해 DB 전부 밀어버리기
+--DROP TABLE IF EXISTS fds, trading_history, login_history, account, user;
 -- 1. 회원 테이블 (user)
-CREATE TABLE user (
+CREATE TABLE IF NOT EXISTS user (
     user_id INT AUTO_INCREMENT PRIMARY KEY COMMENT '회원번호',
     username VARCHAR(50) NOT NULL UNIQUE COMMENT '로그인 ID',
     password VARCHAR(60) NOT NULL COMMENT '비밀번호',
@@ -12,7 +12,7 @@ CREATE TABLE user (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 2. 계좌 테이블 (account)
-CREATE TABLE account (
+CREATE TABLE IF NOT EXISTS account (
     account_id INT AUTO_INCREMENT PRIMARY KEY COMMENT '계좌 식별 번호',
     user_id INT NOT NULL COMMENT '회원번호',
     account_number VARCHAR(20) NOT NULL UNIQUE COMMENT '계좌번호',
@@ -23,7 +23,7 @@ CREATE TABLE account (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 3. 로그인 기록 테이블 (login_history)
-CREATE TABLE login_history (
+CREATE TABLE IF NOT EXISTS login_history (
     history_id INT AUTO_INCREMENT PRIMARY KEY COMMENT '기록 식별 번호',
     user_id INT NOT NULL COMMENT '회원번호',
     location VARCHAR(25) NOT NULL COMMENT '로그인 위치',
@@ -35,7 +35,7 @@ CREATE TABLE login_history (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 4. 거래 내용 테이블 (trading_history)
-CREATE TABLE trading_history (
+CREATE TABLE IF NOT EXISTS trading_history (
     history_id INT AUTO_INCREMENT PRIMARY KEY COMMENT '거래 기록 번호',
     trade_type VARCHAR(10) NOT NULL COMMENT '거래 종류 (송금, 출금, 입금)',
     sending_account INT NOT NULL COMMENT '출금 계좌 식별 번호(외래키)',
@@ -52,7 +52,7 @@ CREATE TABLE trading_history (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 5. FDS 결과 테이블 (fds)
-CREATE TABLE fds (
+CREATE TABLE IF NOT EXISTS fds (
     fds_id INT AUTO_INCREMENT PRIMARY KEY COMMENT 'fds 기록 번호',
     history_id INT NOT NULL COMMENT '거래 기록 번호(외래키)',
     account_id INT NOT NULL COMMENT '대상 계좌 식별 번호',
