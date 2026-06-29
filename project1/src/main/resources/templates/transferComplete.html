@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>송금 완료</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:"Segoe UI", Arial, sans-serif;
+    background:linear-gradient(135deg,#eaf6ff,#f7fbff);
+}
+
+/* 상단 */
+.header{
+    background:linear-gradient(90deg,#3bb6ff,#5ad7ff);
+    color:white;
+    text-align:center;
+    font-size:24px;
+    font-weight:bold;
+    padding:20px;
+}
+
+.divider{
+    height:1px;
+    background:#d6ecff;
+}
+
+/* 전체 카드 */
+
+.container{
+
+    width:650px;
+    margin:40px auto;
+    background:white;
+    border-radius:20px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    overflow:hidden;
+
+}
+
+/* 완료 영역 */
+
+.complete{
+
+    text-align:center;
+    padding:30px;
+    border-bottom:1px solid #e8eef5;
+
+}
+
+.complete h2{
+
+    color:#1e88e5;
+    margin-bottom:10px;
+
+}
+
+.complete p{
+
+    color:#666;
+
+}
+
+.coin{
+    font-size:30px;
+    vertical-align:middle;
+}
+
+
+/* 내용 */
+
+.content{
+
+    padding:35px 45px;
+
+}
+
+.item{
+
+    margin-bottom:30px;
+
+}
+
+.label{
+
+    color:#777;
+    font-size:15px;
+    margin-bottom:6px;
+
+}
+
+.value{
+
+    font-size:22px;
+    font-weight:bold;
+    color:#222;
+
+}
+
+.amount{
+
+    color:#1e88e5;
+    font-size:28px;
+
+}
+
+.balance{
+
+    color:#2e7d32;
+
+}
+
+/* 버튼 */
+
+.buttonArea{
+
+    border-top:1px solid #e8eef5;
+    text-align:center;
+    padding:30px;
+
+}
+
+.confirmBtn{
+
+    display:inline-block;
+    padding:13px 40px;
+    text-decoration:none;
+    color:white;
+    font-weight:bold;
+    border-radius:30px;
+    background:linear-gradient(90deg,#1e88e5,#42a5f5);
+    box-shadow:0 5px 12px rgba(0,0,0,.15);
+    transition:.2s;
+
+}
+
+.confirmBtn:hover{
+
+    transform:scale(1.05);
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+    송금 완료
+</div>
+
+<div class="divider"></div>
+
+<div class="container">
+
+    <div class="complete">
+
+       <h2>송금이 완료되었습니다. <span class="coin">🪙</span></h2>
+        <p>거래가 정상적으로 처리되었습니다.</p>
+
+    </div>
+
+    <div class="content">
+
+        <div class="item">
+
+            <div class="label">송금 금액</div>
+            <div class="value amount">500,000원</div>
+
+        </div>
+
+        <div class="item">
+
+            <div class="label">받는 계좌</div>
+            <div class="value">123-456-78910</div>
+
+        </div>
+
+        <div class="item">
+
+            <div class="label">메세지</div>
+            <div class="value">000</div>
+
+        </div>
+
+        <div class="item">
+
+            <div class="label">남은 잔액</div>
+            <div class="value balance">850,000원</div>
+
+        </div>
+
+    </div>
+
+    <div class="buttonArea">
+
+        <a href="/home" class="confirmBtn">
+            확인
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>
