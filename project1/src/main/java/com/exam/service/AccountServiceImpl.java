@@ -42,4 +42,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public int withdraw(int accountId, int amount) {return accountMapper.withdraw(accountId,amount);}
 
+    @Override
+    public AccountDTO findAccountByAccountNumber(String accountNumber) {return accountMapper.findAccountByAccountNumber(accountNumber);}
 }
