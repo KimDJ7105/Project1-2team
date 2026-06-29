@@ -1,19 +1,20 @@
 package com.exam.controller;
 
+import com.exam.dto.AccountDTO;
 import com.exam.dto.FdsDTO;
 import com.exam.dto.TradingHistoryDTO;
-import com.exam.service.AccountService;
-import com.exam.service.FdsService;
-import com.exam.service.TradingHistoryService;
-import com.exam.service.TransactionService;
+import com.exam.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.constraints.Min;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,12 +23,18 @@ public class TransactionController {
 
     TransactionService transactionService;
     TradingHistoryService tradingHistoryService;
+    AccountService accountService;
+    UserService userService;
 
    public TransactionController(TransactionService transactionService,
-                             TradingHistoryService tradingHistoryService) {
+                             TradingHistoryService tradingHistoryService,
+                                AccountService accountService,
+                                UserService userService) {
 
     this.transactionService = transactionService;
     this.tradingHistoryService = tradingHistoryService;
+    this.accountService = accountService;
+    this.userService = userService;
 }
 
     // 계좌 이체 화면 요청
@@ -54,7 +61,6 @@ public class TransactionController {
 
         // 가져온 데이터 : 보내는 계좌 id, 목표 계좌 번호, 금액, 메시지
 
-        // 일단 임시로 거래 타입 설정
         tradingHistoryDTO.setTradeType("송금");
         
         // 송금 서비스 실행
@@ -75,6 +81,66 @@ public class TransactionController {
             model.addAttribute("tradingHistoryDTO", tradingHistoryDTO);
             return "transfer";
         }
+
+        // 송금 성공
+        return "redirect:/home";
+
+    }
+
+    // 입금 화면 요청
+    @GetMapping("/deposit")
+    public String depositMoney(@RequestParam(value = "accountId", required = false) int accountId, Model model) {
+
+        TradingHistoryDTO dto = new TradingHistoryDTO();
+
+        if (accountId > 0) {
+            dto.setSendingAccount(accountId);
+        } else {
+            // 제대로된 값이 넘어오지 않은 경우.
+            //todo 예외 처리 필요.
+        }
+
+        model.addAttribute("tradingHistoryDTO", dto);
+
+        return "deposit";
+    }
+
+    @PostMapping("/deposit")
+    public String depositProcess(TradingHistoryDTO tradingHistoryDTO, Model model) {
+
+        // 가져온 데이터 : 보내는 계좌 id, 금액, 메시지
+
+        if (tradingHistoryDTO.getAmount() <= 0) {
+            model.addAttribute("errorMessage", "입금할 금액을 정확히 입력해 주세요.");
+            model.addAttribute("tradingHistoryDTO", tradingHistoryDTO);
+            return "deposit";
+        }
+
+        // 계좌 정보 로드
+        AccountDTO myAccount = accountService.findAccountById(tradingHistoryDTO.getSendingAccount());
+        if (myAccount == null) {
+            model.addAttribute("errorMessage", "존재하지 않는 계좌이거나 접근이 거부되었습니다.");
+            model.addAttribute("tradingHistoryDTO", tradingHistoryDTO);
+            return "deposit";
+        }
+
+        // 입금 처리
+        HashMap<String,Object> depositMap = new HashMap<>();
+        depositMap.put("accountNumber",myAccount.getAccountNumber());
+        depositMap.put("amount",tradingHistoryDTO.getAmount());
+        accountService.deposit(depositMap);
+
+        tradingHistoryDTO.setTradeType("입금");
+        tradingHistoryDTO.setSendingAccount(myAccount.getAccountId());
+        tradingHistoryDTO.setReceivingAccount(myAccount.getAccountId());
+        if(tradingHistoryDTO.getMessage() == null || tradingHistoryDTO.getMessage().equals("")){
+            tradingHistoryDTO.setMessage(userService.findUser(
+                    myAccount.getUserId())
+                            .getName());
+        }
+        tradingHistoryDTO.setIsFail(false);
+
+        tradingHistoryService.insertTradingHistory(tradingHistoryDTO);
 
         // 송금 성공
         return "redirect:/home";
