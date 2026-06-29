@@ -46,16 +46,16 @@ public class FdsServiceImpl implements FdsService {
 
         } else if (amount <= 500000) {
             score +=5;
-            reason += "소액 거래\n";
+            reason += "-소액 거래\n";
         } else if (amount <= 1000000) {
             score +=10;
-            reason += "중간 금액\n";
+            reason += "-중간 금액\n";
         } else if (amount <= 3000000) {
             score +=20;
-            reason += "고액 거래\n";
+            reason += "-고액 거래\n";
         } else {
             score +=35;
-            reason += "매우 고액 거래\n";
+            reason += "-매우 고액 거래\n";
         }
 
         // 거래 시간
@@ -66,17 +66,17 @@ public class FdsServiceImpl implements FdsService {
 
         } else if (hour >= 22) {
             score +=10;
-            reason += "야간 거래\n";
+            reason += "-야간 거래\n";
         } else {
             score +=20;
-            reason += "심야 거래\n";
+            reason += "-심야 거래\n";
         }
 
         //신규 계좌 여부 (기존 송금 이력 있는지 없는지 검사)
         int transferHistorycount=tradingHistoryService.countTransferHistory(tradingHistoryDTO.getSendingAccount(), tradingHistoryDTO.getReceivingAccount());
         if (transferHistorycount==0) {
             score +=20;
-            reason += "신규 계좌\n";
+            reason += "-신규 계좌\n";
         } else {
 
         }
@@ -88,10 +88,10 @@ public class FdsServiceImpl implements FdsService {
 
         } else if (recentTransferCount<=3) {
             score +=10;
-            reason += "반복 거래\n";
+            reason += "-반복 거래\n";
         } else {
             score +=20;
-            reason += "과도한 반복 거래\n";
+            reason += "-과도한 반복 거래\n";
         }
 
 
@@ -103,10 +103,10 @@ public class FdsServiceImpl implements FdsService {
 
             } else if (ratio <= 0.7) {
                 score +=10;
-                reason += "큰 금액\n";
+                reason += "-큰 금액\n";
             } else {
                 score +=20;
-                reason += "대부분 인출\n";
+                reason += "-대부분 인출\n";
             }
 
             //해외 거래 ???? 일단 보류하겠습니다.

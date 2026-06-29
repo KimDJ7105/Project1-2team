@@ -22,6 +22,8 @@ public class TradingHistoryDTO {
     private LocalDateTime tradeDate;
     private boolean isFail;
     private String failMsg;
+    private boolean fdsBypass;
+
     public TradingHistoryDTO() {
     }
 
@@ -44,12 +46,26 @@ public class TradingHistoryDTO {
                 ", tradeType='" + tradeType + '\'' +
                 ", sendingAccount=" + sendingAccount +
                 ", receivingAccount=" + receivingAccount +
+                ", receivingAccountNumber='" + receivingAccountNumber + '\'' +
                 ", amount=" + amount +
                 ", message='" + message + '\'' +
                 ", tradeDate=" + tradeDate +
                 ", isFail=" + isFail +
                 ", failMsg='" + failMsg + '\'' +
+                ", fdsBypass=" + fdsBypass +
                 '}';
+    }
+
+    public void setFail(boolean fail) {
+        isFail = fail;
+    }
+
+    public boolean isFdsBypass() {
+        return fdsBypass;
+    }
+
+    public void setFdsBypass(boolean fdsBypass) {
+        this.fdsBypass = fdsBypass;
     }
 
     public int getHistoryId() {
