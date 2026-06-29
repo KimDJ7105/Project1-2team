@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>송금하기</title>
@@ -113,6 +113,9 @@
         font-weight: bold;
         box-shadow: 0 5px 12px rgba(0,0,0,0.15);
         transition: 0.2s;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
     }
 
     .send-btn:hover {
@@ -128,37 +131,51 @@
 <div class="divider"></div>
 
 <div class="container">
-
-    <!-- 받는 계좌 -->
-    <div class="input-box">
-        <label>받는 계좌</label>
-        <div class="account-input">
-            <input type="text" maxlength="3" placeholder="123">
-            <input type="text" maxlength="3" placeholder="456">
-            <input type="text" maxlength="5" placeholder="78910">
+    <form action="/sendMoney" method="post" th:object="${tradingHistoryDTO}" onsubmit="combineAccountNumber()">
+        <div class="error" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+        <!-- 보내는 계좌(송금 버튼 선택한 계좌) -->
+        <input type="hidden" th:field="*{sendingAccount}" id="sendingAccount">
+        <!-- 받는 계좌 -->
+        <input type="hidden" th:field="*{receivingAccountNumber}" id="receivingAccountNumber">
+        <div class="input-box">
+            <label>받는 계좌</label>
+            <div class="account-input">
+                <input type="text" id="acc1" maxlength="3" placeholder="123">
+                <input type="text" id="acc2" maxlength="3" placeholder="456">
+                <input type="text" id="acc3" maxlength="5" placeholder="78910">
+            </div>
         </div>
-    </div>
 
-    <!-- 금액 -->
-    <div class="input-box">
-        <label>금액</label>
-        <input type="number" class="money-input" placeholder="송금 금액 입력">
-        <div class="warn">※ 1원 이상 입력해야 합니다</div>
-    </div>
+        <!-- 금액 -->
+        <div class="input-box">
+            <label>금액</label>
+            <input type="number" th:field="*{amount}" class="money-input" placeholder="송금 금액 입력">
+            <div class="warn">※ 1원 이상 입력해야 합니다</div>
+        </div>
 
-    <!-- 메세지 -->
-    <div class="input-box">
-        <label>메세지</label>
-        <textarea placeholder="보내는 사람 이름 또는 메세지를 입력하세요"></textarea>
-    </div>
+        <!-- 메세지 -->
+        <div class="input-box">
+            <label>메세지</label>
+            <textarea th:field="*{message}" placeholder="보내는 사람 이름 또는 메세지를 입력하세요"></textarea>
+        </div>
 
-    <!-- 버튼 -->
-    <div class="btn-box">
-        <a href="/home" class="cancel-btn">취소</a>
-        <a href="#" class="send-btn">송금하기</a>
-    </div>
-
+        <!-- 버튼 -->
+        <div class="btn-box">
+            <a href="/home" class="cancel-btn">취소</a>
+            <button type="submit" class="send-btn">송금하기</button>
+        </div>
+    </form>
 </div>
+
+<script>
+    function combineAccountNumber() {
+        const acc1 = document.getElementById("acc1").value;
+        const acc2 = document.getElementById("acc2").value;
+        const acc3 = document.getElementById("acc3").value;
+
+        document.getElementById("receivingAccountNumber").value = acc1 + acc2 + acc3;
+    }
+</script>
 
 </body>
 </html>

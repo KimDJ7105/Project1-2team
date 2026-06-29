@@ -15,13 +15,13 @@ public class TradingHistoryDTO {
     private String tradeType;
     private int sendingAccount;
     private int receivingAccount;
+    private String receivingAccountNumber;
     @Min(value = 0, message = "거래액은 0원 이상이어야 합니다.")
     private int amount;
     private String message;
     private LocalDateTime tradeDate;
     private boolean isFail;
     private String failMsg;
-    
     public TradingHistoryDTO() {
     }
 
@@ -122,5 +122,13 @@ public class TradingHistoryDTO {
 
     public void setFailMsg(String failMsg) {
         this.failMsg = failMsg;
+    }
+
+    public String getReceivingAccountNumber() {
+        return receivingAccountNumber;
+    }
+
+    public void setReceivingAccountNumber(String receivingAccountNumber) {
+        this.receivingAccountNumber = receivingAccountNumber;
     }
 }

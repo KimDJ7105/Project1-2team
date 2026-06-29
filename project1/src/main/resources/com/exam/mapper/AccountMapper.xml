@@ -17,6 +17,13 @@
         where account_id=#{accountId}
     </select>
 
+    <!-- 계좌 번호로 계좌 조회 -->
+    <select id="findAccountByAccountNumber" parameterType="String" resultType="AccountDTO">
+        select account_id AS accountId, user_id AS userId, account_number AS accountNumber, balance
+        from account
+        where account_number=#{accountNumber}
+    </select>
+
     <!-- 출금 계좌 잔액 차감 -->
     <update id="withdraw">
         update account

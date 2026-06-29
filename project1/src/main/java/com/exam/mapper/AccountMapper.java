@@ -12,6 +12,9 @@ public interface AccountMapper {
     // 계좌 1개 조회
     AccountDTO findAccountById(int accountId);
 
+    // 계좌 번호로 계좌 조회
+    AccountDTO findAccountByAccountNumber(String accountNumber);
+
     // 출금 계좌 잔액 차감
     int withdraw(int accountId, int amount);
 
