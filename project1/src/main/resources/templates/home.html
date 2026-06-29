@@ -190,26 +190,18 @@
 
 
         <div sec:authorize="isAuthenticated()">
-
-            <!--<div class="account-box">
-                <div class="account-title">계좌 1 │ 123-456-78910</div>
-                <div>잔액 1,350,000원</div>
-                <div class="buttons">
-                    <a href="/transfer" class="btn">송금</a>
-                    <a href="/history" class="btn">거래내역</a>
-                </div>
-            </div>-->
-
             <div th:if="${#lists.isEmpty(accounts)}">
-                <a th:href="@{/createAccount}" class="account-box" style="display: block; text-decoration: none; color: #555; text-align: center; padding: 40px 20px; border-left-color: #f44336;">
-                    <div style="font-size: 18px; font-weight: bold; color: #e53935; margin-bottom: 8px;">
-                        텅 빈 금고 ☁️
-                    </div>
-                    <div>
-                        현재 개설된 클라우드 계좌가 존재하지 않습니다. <br>
-                        <strong style="color: #c62828; text-decoration: underline;">여기에서 첫 계좌를 생성</strong>하고 뱅킹 서비스를 시작해 보세요!
-                    </div>
-                </a>
+                <form th:action="@{/createAccount}" method="post">
+                    <button type="submit" class="account-box" style="display: block; width: 100%; border: none; background: white; text-decoration: none; color: #555; text-align: center; padding: 40px 20px; border-left: 5px solid #f44336; cursor: pointer; font-family: inherit;">
+                        <div style="font-size: 18px; font-weight: bold; color: #e53935; margin-bottom: 8px;">
+                            텅 빈 금고 ☁️
+                        </div>
+                        <div>
+                            현재 개설된 클라우드 계좌가 존재하지 않습니다. <br>
+                            <strong style="color: #c62828; text-decoration: underline;">여기에서 첫 계좌를 생성</strong>하고 뱅킹 서비스를 시작해 보세요!
+                        </div>
+                    </button>
+                </form>
             </div>
 
             <div th:unless="${#lists.isEmpty(accounts)}">
@@ -218,7 +210,7 @@
                         <span th:text="'계좌 ' + ${stat.count} + ' │ ' + ${acc.accountNumber}">계좌 1 │ 000-000-000</span>
                     </div>
                     <div>
-                        잔액 <span th:text="${#numbers.formatInteger(acc.balance, 3, 'COMMA')} + '원'">0원</span>
+                        잔액 <span th:text="${#numbers.formatInteger(acc.balance, 1, 'COMMA')} + '원'">0원</span>
                     </div>
                     <div class="buttons">
                         <a th:href="@{/transfer(accountId=${acc.accountId})}" class="btn">송금</a>
@@ -227,7 +219,11 @@
                 </div>
             </div>
 
-            <a href="/account/add" class="add-account">+ 계좌 추가</a>
+            <form th:action="@{/createAccount}" method="post" style="margin-top: 15px;">
+                <button type="submit" class="add-account" style="border: none; cursor: pointer; width: 100%; display: block; text-align: center;">
+                    + 계좌 추가
+                </button>
+            </form>
 
         </div>
 
