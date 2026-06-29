@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>송금 완료</title>
@@ -148,7 +149,7 @@ body{
 
 <body>
 
-<div class="header">
+<div class="header" th:text="${tradingHistoryDTO.tradeType + ' 완료'}">
     송금 완료
 </div>
 
@@ -157,50 +158,44 @@ body{
 <div class="container">
 
     <div class="complete">
-
-       <h2>송금이 완료되었습니다. <span class="coin">🪙</span></h2>
+        <h2>
+            <span th:text="${tradingHistoryDTO.tradeType + '이 완료되었습니다.'}">송금이 완료되었습니다.</span>
+            <span class="coin">🪙</span>
+        </h2>
         <p>거래가 정상적으로 처리되었습니다.</p>
-
     </div>
 
     <div class="content">
 
         <div class="item">
-
-            <div class="label">송금 금액</div>
-            <div class="value amount">500,000원</div>
-
+            <div class="label" th:text="${tradingHistoryDTO.tradeType + ' 금액'}">송금 금액</div>
+            <div class="value amount" th:text="${#numbers.formatInteger(tradingHistoryDTO.amount, 1, 'COMMA') + '원'}">500,000원</div>
         </div>
 
-        <div class="item">
-
+        <div class="item" th:if="${tradingHistoryDTO.tradeType == '송금'}">
             <div class="label">받는 계좌</div>
-            <div class="value">123-456-78910</div>
+            <div class="value" th:text="${tradingHistoryDTO.receivingAccountNumber}">123-456-78910</div>
+        </div>
 
+        <div class="item" th:if="${tradingHistoryDTO.tradeType == '입금' or tradingHistoryDTO.tradeType == '출금'}">
+            <div class="label">거래 계좌</div>
+            <div class="value" th:text="${myAccountNumber}">123-456-78910</div>
         </div>
 
         <div class="item">
-
-            <div class="label">메세지</div>
-            <div class="value">000</div>
-
+            <div class="label" th:text="${tradingHistoryDTO.tradeType == '입금' ? '통장 메모' : '전달 메세지'}">메세지</div>
+            <div class="value" th:text="${tradingHistoryDTO.message}">000</div>
         </div>
 
         <div class="item">
-
             <div class="label">남은 잔액</div>
-            <div class="value balance">850,000원</div>
-
+            <div class="value balance" th:text="${#numbers.formatInteger(currentBalance, 1, 'COMMA') + '원'}">850,000원</div>
         </div>
 
     </div>
 
     <div class="buttonArea">
-
-        <a href="/home" class="confirmBtn">
-            확인
-        </a>
-
+        <a href="/home" class="confirmBtn">확인</a>
     </div>
 
 </div>

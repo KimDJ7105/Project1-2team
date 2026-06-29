@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -57,7 +58,7 @@ public class TransactionController {
 
     // 계좌 이체 처리
     @PostMapping("/sendMoney")
-    public String sendMoneyProcess(TradingHistoryDTO tradingHistoryDTO, Model model) {
+    public String sendMoneyProcess(TradingHistoryDTO tradingHistoryDTO, Model model, RedirectAttributes redirectAttributes) {
 
         // 가져온 데이터 : 보내는 계좌 id, 목표 계좌 번호, 금액, 메시지
 
@@ -82,8 +83,14 @@ public class TransactionController {
             return "transfer";
         }
 
-        // 송금 성공
-        return "redirect:/home";
+        AccountDTO myAccount =
+                accountService.findAccountById(tradingHistoryDTO.getSendingAccount());
+
+        redirectAttributes.addFlashAttribute("tradingHistoryDTO", tradingHistoryDTO);
+        redirectAttributes.addFlashAttribute("myAccountNumber", myAccount.getAccountNumber());
+        redirectAttributes.addFlashAttribute("currentBalance", myAccount.getBalance() - tradingHistoryDTO.getAmount());
+
+        return "redirect:/transferComplete";
 
     }
 
@@ -107,7 +114,7 @@ public class TransactionController {
 
     // 입금 처리
     @PostMapping("/deposit")
-    public String depositProcess(TradingHistoryDTO tradingHistoryDTO, Model model) {
+    public String depositProcess(TradingHistoryDTO tradingHistoryDTO, Model model, RedirectAttributes redirectAttributes) {
 
         // 가져온 데이터 : 보내는 계좌 id, 금액, 메시지
 
@@ -144,7 +151,11 @@ public class TransactionController {
         tradingHistoryService.insertTradingHistory(tradingHistoryDTO);
 
         // 입금 성공
-        return "redirect:/home";
+        redirectAttributes.addFlashAttribute("tradingHistoryDTO", tradingHistoryDTO);
+        redirectAttributes.addFlashAttribute("myAccountNumber", myAccount.getAccountNumber());
+        redirectAttributes.addFlashAttribute("currentBalance", myAccount.getBalance() + tradingHistoryDTO.getAmount());
+
+        return "redirect:/transferComplete";
 
     }
 
@@ -168,7 +179,7 @@ public class TransactionController {
 
     // 입금 처리
     @PostMapping("/withdraw")
-    public String withdrawProcess(TradingHistoryDTO tradingHistoryDTO, Model model) {
+    public String withdrawProcess(TradingHistoryDTO tradingHistoryDTO, Model model, RedirectAttributes redirectAttributes) {
 
         // 가져온 데이터 : 보내는 계좌 id, 금액, 메시지
 
@@ -205,7 +216,11 @@ public class TransactionController {
         tradingHistoryService.insertTradingHistory(tradingHistoryDTO);
 
         // 출금 성공
-        return "redirect:/home";
+        redirectAttributes.addFlashAttribute("tradingHistoryDTO", tradingHistoryDTO);
+        redirectAttributes.addFlashAttribute("myAccountNumber", myAccount.getAccountNumber());
+        redirectAttributes.addFlashAttribute("currentBalance", myAccount.getBalance() - tradingHistoryDTO.getAmount());
+
+        return "redirect:/transferComplete";
 
     }
 
@@ -221,5 +236,11 @@ public class TransactionController {
         model.addAttribute("historyList",filteredList);
 
         return "transactionHistory";
+    }
+
+    // 거래 완료 페이지
+    @GetMapping("/transferComplete")
+    public String transferComplete(Model model) {
+        return "transferComplete";
     }
 }
