@@ -1,14 +1,239 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<meta charset="UTF-8">
+<title>Cloud Bank Home</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Arial;
+        background: linear-gradient(135deg, #eaf6ff, #f7fbff);
+    }
+
+    .container {
+        display: flex;
+        height: 100vh;
+    }
+
+    /* 왼쪽 사이드 */
+    .sidebar {
+        flex: 1;
+        background: linear-gradient(180deg, #3bb6ff, #5ad7ff);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 30px 20px;
+        color: white;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    }
+
+    /* My 버튼 */
+    .my-btn {
+        width: 65px;
+        height: 65px;
+        border-radius: 50%;
+        background: white;
+        color: #2b9df4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        text-decoration: none;
+        font-size: 16px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        transition: 0.2s;
+    }
+
+    .my-btn:hover {
+        transform: scale(1.05);
+    }
+
+    /* 로그아웃 */
+    .logout-btn {
+        background: rgba(255,255,255,0.9);
+        color: #2b9df4;
+        padding: 10px 18px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 14px;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+
+    /* 메인 */
+    .main {
+        flex: 3;
+        padding: 40px;
+    }
+
+    .title {
+        font-size: 26px;
+        font-weight: bold;
+        color: #1e88e5;
+        margin-bottom: 25px;
+    }
+
+    /* 계좌 카드 */
+    .account-box {
+        background: white;
+        border-radius: 16px;
+        padding: 18px 20px;
+        margin-bottom: 18px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        border-left: 6px solid #4fc3f7;
+        transition: 0.2s;
+    }
+
+    .account-box:hover {
+        transform: translateY(-2px);
+    }
+
+    .account-title {
+        font-weight: bold;
+        font-size: 16px;
+        margin-bottom: 6px;
+    }
+
+    .buttons {
+        margin-top: 12px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 7px 12px;
+        margin-right: 6px;
+        border-radius: 20px;
+        font-size: 12px;
+        text-decoration: none;
+        background: #4fc3f7;
+        color: white;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #29b6f6;
+    }
+
+    /* 계좌 추가 */
+    .add-account {
+        margin-top: 25px;
+        display: inline-block;
+        padding: 12px 18px;
+        background: #1e88e5;
+        color: white;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: bold;
+        box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+    }
+
+    .add-account:hover {
+        background: #1976d2;
+    }
+
+</style>
 </head>
+
 <body>
-<h1>Home</h1>
-<div th:replace="~{ include/header :: header}"></div>
-<hr>
-<div th:replace="~{ include/home :: content}"></div>
+
+<div class="container">
+
+    <!-- 사이드 -->
+    <div class="sidebar">
+
+        <div>
+            <a href="/mypage" class="my-btn">MY</a>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 12px; align-items: center;">
+
+        <span sec:authorize="isAnonymous()" style="display: flex; flex-direction: column; gap: 12px; align-items: center;">
+            <a th:href="@{/login}" class="logout-btn" style="background: white; color: #2b9df4; text-align: center; width: 80px;">로그인</a>
+            <a th:href="@{/signup}" class="logout-btn" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid white; text-align: center; width: 80px;">회원가입</a>
+        </span>
+
+            <span sec:authorize="isAuthenticated()">
+            <a th:href="@{/logout}" class="logout-btn" style="text-align: center; width: 80px;">로그아웃</a>
+        </span>
+
+        </div>
+
+    </div>
+
+    <!-- 메인 -->
+    <div class="main">
+
+        <div class="title">
+        <span sec:authorize="isAnonymous()">
+            안녕하세요! ☁️
+        </span>
+
+            <span sec:authorize="isAuthenticated()">
+            안녕하세요 <span th:text="${session.myLogin.name}">홍길동</span>님! ☁️
+        </span>
+        </div>
+
+        <div sec:authorize="isAnonymous()">
+            <a th:href="@{/login}" class="account-box" style="display: block; text-decoration: none; color: #555; text-align: center; padding: 40px 20px; border-left-color: #ffb300;">
+                <div style="font-size: 18px; font-weight: bold; color: #1e88e5; margin-bottom: 8px;">
+                    🔑 안전한 금융 거래를 위해
+                </div>
+                <div>
+                    계좌를 확인하시려면 <strong style="color: #1976d2; text-decoration: underline;">여기에서 로그인</strong> 해주세요!
+                </div>
+            </a>
+        </div>
+
+
+        <div sec:authorize="isAuthenticated()">
+
+            <!--<div class="account-box">
+                <div class="account-title">계좌 1 │ 123-456-78910</div>
+                <div>잔액 1,350,000원</div>
+                <div class="buttons">
+                    <a href="/transfer" class="btn">송금</a>
+                    <a href="/history" class="btn">거래내역</a>
+                </div>
+            </div>-->
+
+            <div th:if="${#lists.isEmpty(accounts)}">
+                <a th:href="@{/createAccount}" class="account-box" style="display: block; text-decoration: none; color: #555; text-align: center; padding: 40px 20px; border-left-color: #f44336;">
+                    <div style="font-size: 18px; font-weight: bold; color: #e53935; margin-bottom: 8px;">
+                        텅 빈 금고 ☁️
+                    </div>
+                    <div>
+                        현재 개설된 클라우드 계좌가 존재하지 않습니다. <br>
+                        <strong style="color: #c62828; text-decoration: underline;">여기에서 첫 계좌를 생성</strong>하고 뱅킹 서비스를 시작해 보세요!
+                    </div>
+                </a>
+            </div>
+
+            <div th:unless="${#lists.isEmpty(accounts)}">
+                <div class="account-box" th:each="acc, stat : ${accounts}">
+                    <div class="account-title">
+                        <span th:text="'계좌 ' + ${stat.count} + ' │ ' + ${acc.accountNumber}">계좌 1 │ 000-000-000</span>
+                    </div>
+                    <div>
+                        잔액 <span th:text="${#numbers.formatInteger(acc.balance, 3, 'COMMA')} + '원'">0원</span>
+                    </div>
+                    <div class="buttons">
+                        <a th:href="@{/transfer(accountId=${acc.accountId})}" class="btn">송금</a>
+                        <a th:href="@{/history(accountId=${acc.accountId})}" class="btn">거래내역</a>
+                    </div>
+                </div>
+            </div>
+
+            <a href="/account/add" class="add-account">+ 계좌 추가</a>
+
+        </div>
+
+    </div>
+
+</div>
 
 </body>
 </html>

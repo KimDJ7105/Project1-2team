@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>My Page</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Arial;
+        background: linear-gradient(135deg, #eaf6ff, #f7fbff);
+    }
+
+    /* 상단 */
+    .header {
+        background: linear-gradient(90deg, #3bb6ff, #5ad7ff);
+        color: white;
+        padding: 20px;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .divider {
+        height: 1px;
+        background: #d6ecff;
+        margin: 0;
+    }
+
+    /* 프로필 */
+    .profile-card {
+        background: white;
+        margin: 25px;
+        padding: 25px;
+        border-radius: 18px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        text-align: center;
+    }
+
+    /* 프로필 동그라미 */
+    .profile-img {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        background: #4fc3f7;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 28px;
+        font-weight: bold;
+        margin: 0 auto 15px auto;
+    }
+
+    .info {
+        font-size: 15px;
+        margin: 5px 0;
+        color: #333;
+    }
+
+    /* 계좌 */
+    .section-title {
+        margin: 25px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #1e88e5;
+    }
+
+    .account-box {
+        background: white;
+        margin: 0 25px 15px 25px;
+        padding: 18px;
+        border-radius: 14px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        border-left: 5px solid #4fc3f7;
+    }
+
+    .account-number {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .account-info {
+        font-size: 14px;
+        color: #444;
+    }
+
+    /* 홈 버튼 */
+    .home-btn {
+        display: inline-block;
+        margin: 30px 25px;
+        padding: 12px 18px;
+        background: #1e88e5;
+        color: white;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: bold;
+        box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+    }
+
+    .home-btn:hover {
+        background: #1976d2;
+    }
+
+</style>
+</head>
+
+<body>
+
+    <!-- 상단 -->
+    <div class="header">마이페이지</div>
+    <div class="divider"></div>
+
+    <!-- 프로필 -->
+    <div class="profile-card">
+        <div class="profile-img">🦁</div>
+        <div class="info">
+            <b>이름 :</b> <span th:text="${session.myLogin.name}">홍길동</span>
+        </div>
+        <div class="info">
+            <b>생년월일 :</b> <span th:text="${session.myLogin.birthDate}">2000-01-01</span>
+        </div>
+    </div>
+
+    <!-- 계좌 -->
+    <div class="section-title">내 계좌</div>
+
+    <div th:if="${#lists.isEmpty(accounts)}">
+        <a th:href="@{/createAccount}" class="account-box" style="display: block; text-decoration: none; color: #555; text-align: center; padding: 30px 20px; border-left-color: #f44336;">
+            <div style="font-size: 16px; font-weight: bold; color: #e53935; margin-bottom: 8px;">
+                텅 빈 금고 ☁️
+            </div>
+            <div style="font-size: 14px;">
+                현재 개설된 클라우드 계좌가 존재하지 않습니다. <br>
+                <strong style="color: #c62828; text-decoration: underline;">여기에서 첫 계좌를 생성</strong>해 보세요!
+            </div>
+        </a>
+    </div>
+
+    <div th:unless="${#lists.isEmpty(accounts)}">
+        <div class="account-box" th:each="acc : ${accounts}">
+            <div class="account-number" th:text="${acc.accountNumber}">123-456-78910</div>
+
+            <div class="account-info">
+                잔액: <span th:text="${#numbers.formatInteger(acc.balance, 3, 'COMMA')} + '원'">0원</span>
+            </div>
+            <div class="account-info">
+                개설일: <span th:text="${acc.createdAt}">2025-01-03</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 홈으로 -->
+    <a href="/home" class="home-btn">홈으로</a>
+
+</body>
+</html>
