@@ -8,5 +8,7 @@ spec:
   selector:
     app: finance-app      # 내 Deployment의 라벨 명찰을 조준
   ports:
-  - port: 80
-    targetPort: 8080      # 내 스프링 부트 컨테이너의 8080 구멍으로 패킷 토스
+    - protocol: TCP
+      port: 80              # Service가 외부에 노출하는 포트
+      targetPort: 8080      # 실제 파드가 사용하는 포트
+  type: ClusterIP           # 클러스터 내부에서만 접근 가능
