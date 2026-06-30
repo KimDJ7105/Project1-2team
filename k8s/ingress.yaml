@@ -1,20 +1,24 @@
 apiVersion: networking.k8s.io/v1
-kind: Ingress            
+kind: Ingress
 metadata:
-  name: finance-ingress 
+  name: finance-ingress
   namespace: finance-app
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /  # 요청 경로를 /로 재작성
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "INGRESSCOOKIE"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
 spec:
-  ingressClassName: nginx           # ingress-nginx 컨트롤러 사용
+  ingressClassName: nginx
   rules:
-    - host: app.k8s.jyang.synology.me  # 이 도메인으로 들어오는 요청 처리
+    - host: app.k8s.jyang.synology.me
       http:
         paths:
-          - path: /                 # 모든 경로 처리
-            pathType: Prefix        # /로 시작하는 모든 경로 매칭
+          - path: /
+            pathType: Prefix
             backend:
               service:
-                name: finance-svc  # 트래픽을 전달할 Service 이름 (service.yaml과 일치)
+                name: finance-app-svc
                 port:
-                  number: 80       # Service의 port (service.yaml의 port와 일치)
+                  number: 80
