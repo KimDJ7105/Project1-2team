@@ -219,7 +219,7 @@ public class TransactionController {
         // 출금 성공
         redirectAttributes.addFlashAttribute("tradingHistoryDTO", tradingHistoryDTO);
         redirectAttributes.addFlashAttribute("myAccountNumber", myAccount.getAccountNumber());
-        redirectAttributes.addFlashAttribute("currentBalance", myAccount.getBalance() - tradingHistoryDTO.getAmount());
+        redirectAttributes.addFlashAttribute("currentBalance", myAccount.getBalance());
 
         return "redirect:/transferComplete";
 
