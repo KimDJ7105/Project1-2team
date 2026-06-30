@@ -31,13 +31,3 @@ spec:
         volumeMounts:
         - name: mysql-pvc
           mountPath: /var/lib/mysql
-
-  # PVC 내용 이후 대체
-  volumeClaimTemplates:
-  - metadata:
-      name: db-persistent-storage # volumeMount와 일치
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 10Gi
