@@ -5,7 +5,7 @@ metadata:
   namespace: finance-app    
 spec:
   selector:
-    app: finance             # 이 라벨을 가진 파드로 트래픽 전달
+    app: finance-app             # 이 라벨을 가진 파드로 트래픽 전달
   ports:
     - protocol: TCP
       port: 80              # Service가 외부에 노출하는 포트
