@@ -31,3 +31,7 @@ spec:
         volumeMounts:
         - name: mysql-pvc
           mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-pvc
+        persistentVolumeClaim:
+          claimName: mysql-pvc
