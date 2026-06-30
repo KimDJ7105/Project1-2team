@@ -3,16 +3,13 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: finance-hpa
   namespace: finance-app
-
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: finance-deployment
-
   minReplicas: 2
-  maxReplicas: 5
-
+  maxReplicas: 8
   metrics:
     - type: Resource
       resource:
