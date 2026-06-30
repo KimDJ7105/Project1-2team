@@ -17,6 +17,12 @@
         values(#{historyId}, #{accountId}, #{riskRank}, #{riskScore}, #{riskReason})
     </insert>
 
+    <!-- -->
+    <select id="findFdsByHistory" parameterType="int" resultType="FdsDTO">
+        select * from fds
+        where history_id = #{history_id}
+    </select>
+
 </mapper>
 
 

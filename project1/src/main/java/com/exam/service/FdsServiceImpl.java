@@ -156,4 +156,7 @@ public class FdsServiceImpl implements FdsService {
     public int insertFds(FdsDTO fdsDTO) {
         return fdsMapper.insertFds(fdsDTO);
     }
+
+    @Override
+    public FdsDTO findFdsByHistory(int historyId) {return fdsMapper.findFdsByHistory(historyId);};
 }

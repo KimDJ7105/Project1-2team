@@ -27,16 +27,19 @@ public class TransactionController {
     TradingHistoryService tradingHistoryService;
     AccountService accountService;
     UserService userService;
+    FdsService fdsService;
 
    public TransactionController(TransactionService transactionService,
                              TradingHistoryService tradingHistoryService,
                                 AccountService accountService,
-                                UserService userService) {
+                                UserService userService,
+                                FdsService fdsService) {
 
     this.transactionService = transactionService;
     this.tradingHistoryService = tradingHistoryService;
     this.accountService = accountService;
     this.userService = userService;
+    this.fdsService = fdsService;
 }
 
     // 계좌 이체 화면 요청
@@ -251,6 +254,16 @@ public class TransactionController {
         List<TradingHistoryDTO> successList = list.stream()
                 .filter(dto -> !dto.isFail())
                 .collect(Collectors.toList());
+
+        for(TradingHistoryDTO l : list) {
+            FdsDTO dto = fdsService.findFdsByHistory(l.getHistoryId());
+            if(dto == null) {
+                l.setMessage("정상");
+            }
+            else {
+                l.setMessage(dto.getRiskRank());
+            }
+        }
 
         model.addAttribute("historyList", successList);
         model.addAttribute("currentAccountId", accountId);

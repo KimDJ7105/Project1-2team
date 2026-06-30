@@ -182,9 +182,7 @@ tr:hover{
 
                 <td th:text="${#numbers.formatInteger(history.amount, 3, 'COMMA') + '원'}">500,000원</td>
 
-                <td th:classappend="${history.fail} ? 'danger' : 'safe'"
-                    th:text="${history.fail} ? '위험' : '정상'">
-                </td>
+                <td th:text="${history.message}">정상</td>
 
             </tr>
 

@@ -14,4 +14,6 @@ public interface FdsService {
 
     // 계산된 FDS 저장
     int insertFds(FdsDTO fdsDTO);
+
+    FdsDTO findFdsByHistory(int historyId);
 }
