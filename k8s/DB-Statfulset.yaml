@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: finance-db-sts
+  namespace: finance-app
+spec:
+  serviceName: "finance-db-svc" # Service명과 매칭시키기. 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: finance-db
+  template:
+    metadata:
+      labels:
+        app: finance-db
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret # secret 명과 동일
+              key: MYSQL_ROOT_PASSWORD # secret 내 key와 일치 
+        - name: MYSQL_DATABASE
+          value: "testdb"
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-pvc
+          mountPath: /var/lib/mysql
+
+  # PVC 내용 이후 대체
+  volumeClaimTemplates:
+  - metadata:
+      name: db-persistent-storage # volumeMount와 일치
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 10Gi

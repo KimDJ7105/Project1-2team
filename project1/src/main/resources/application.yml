@@ -17,7 +17,7 @@ spring:
   #schema.sql 과 data.sql 관리 가능 ( always|never )
   sql:
     init:
-      mode: always
+      mode: ${SPRING_SQL_INIT_MODE:never}
       continue-on-error: true
 #      schema-locations: classpath:schema.sql
 #      data-locations: classpath:data.sql
@@ -28,7 +28,7 @@ spring:
       matching-strategy: ant_path_matcher
         
 mybatis:
-  mapper-locations: com/exam/mapper/*Mapper.xml
+  mapper-locations: classpath:com/exam/mapper/**/*Mapper.xml
   type-aliases-package: com.exam.dto
   configuration:
     map-underscore-to-camel-case: true

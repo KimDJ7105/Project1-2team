@@ -1,0 +1,13 @@
+apiVersion: v1         
+kind: Service             
+metadata:
+  name: finance-db-svc     
+  namespace: finance-app    
+spec:
+  selector:
+    app: finance-db         
+  ports:
+    - protocol: TCP
+      port: 3306             # MySQL 기본 포트
+      targetPort: 3306       # MySQL 파드가 사용하는 포트
+  type: ClusterIP            # 클러스터 내부에서만 접근 가능 (외부 노출 불필요)
