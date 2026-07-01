@@ -170,6 +170,7 @@ tr:hover{
                 <th>날짜</th>
                 <th>유형</th>
                 <th>금액</th>
+                <th>메시지</th>
                 <th>위험도</th>
             </tr>
 
@@ -182,7 +183,9 @@ tr:hover{
 
                 <td th:text="${#numbers.formatInteger(history.amount, 3, 'COMMA') + '원'}">500,000원</td>
 
-                <td th:text="${history.message}">정상</td>
+                <td th:text="${history.message}">메시지</td>
+
+                <td th:text="${history.failMsg}">정상</td>
 
             </tr>
 

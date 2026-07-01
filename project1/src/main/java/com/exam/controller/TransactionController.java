@@ -258,10 +258,10 @@ public class TransactionController {
         for(TradingHistoryDTO l : list) {
             FdsDTO dto = fdsService.findFdsByHistory(l.getHistoryId());
             if(dto == null) {
-                l.setMessage("정상");
+                l.setFailMsg("정상");
             }
             else {
-                l.setMessage(dto.getRiskRank());
+                l.setFailMsg(dto.getRiskRank());
             }
         }
 
