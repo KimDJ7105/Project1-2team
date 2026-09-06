@@ -4,11 +4,15 @@
 
 ## 팀 구성 및 역할
 
-김동재(본인), 안효재, 조윤지, 양지훈 — 4인이 백엔드 로직을 공동 개발했다. 본인은 계좌/거래/FDS 검사 로직 구현과 Kubernetes 배포를 담당했다.
+- **김동재** (본인): 백엔드·프론트엔드 개발 총괄
+- **조윤지**: 프론트엔드 설계 및 개발 참여
+- **안효재**: 백엔드 개발, ER 설계
+- **양지훈**: Docker 관련 작업 및 관리
 
 ## 기술 스택
 
 - 백엔드: Spring Boot(Java), MyBatis, Gradle
+- 프론트엔드: Thymeleaf(서버 사이드 렌더링)
 - 인프라: Kubernetes(StatefulSet, PV/PVC, HPA, Ingress, Secret), Docker
 
 ## 프로젝트 구조
